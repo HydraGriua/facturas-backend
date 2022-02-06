@@ -3,6 +3,7 @@ package com.zytrust.facturas.modelos;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter
@@ -11,26 +12,37 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fac_detalle_facturas")
+@Table(name = "FAC_DETALLE_FACTURAS")
 public class DetalleFactura {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "detfact_id",nullable = false)
-    private String detalleId;
 
-    @Column(name = "detfact_cantidad",nullable = false)
+    @EmbeddedId
+    private DetalleFacturaId detalleFacturaId;
+
+    @Column(name = "DETFACT_CANTIDAD",nullable = false)
     private BigDecimal cantidad;
 
-    @Column(name = "detfact_importe",precision=7, scale=2, nullable = false)
+    @Column(name = "DETFACT_IMPORTE",precision=7, scale=2, nullable = false)
     private BigDecimal importe;
 
-    // TODO: ORM Factura - Producto
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fact_id", nullable = false)
+    @JoinColumn(name = "FACT_ID", nullable = false)
+    @MapsId("DETFACT_FACT_ID")
     private Factura factura;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prod_id", nullable = false)
+    @JoinColumn(name = "PROD_ID", nullable = false)
+    @MapsId("DETFACT_PROD_ID")
     private Producto producto;
 
+}
+
+@Data
+@Embeddable
+class DetalleFacturaId implements Serializable {
+
+    @Column(name = "DETFACT_FACT_ID")
+    private String facturaId;
+
+    @Column(name = "DETFACT_PROD_ID")
+    private String productoId;
 }
