@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "FAC_FACTURAS")
 public class Factura {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
