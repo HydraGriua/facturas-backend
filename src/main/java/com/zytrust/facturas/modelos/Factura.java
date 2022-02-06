@@ -46,10 +46,8 @@ public class Factura {
     @Column(name = "FACT_TOTAL", precision=7, scale=2, nullable = false)
     private BigDecimal total;
 
-
-    // TODO:
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CLI_id", nullable = false)
+    @JoinColumn(name = "CLI_ID", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "factura", fetch = FetchType.LAZY)
