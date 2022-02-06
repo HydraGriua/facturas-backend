@@ -3,13 +3,14 @@ package com.zytrust.facturas.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class CreateFacturaDto {
+public class FacturaDto {
+    private String facturaId;
+
     private String direccion;
 
     private LocalDateTime fechaEmision;

@@ -1,6 +1,7 @@
 package com.zytrust.facturas.modelos;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,41 +14,42 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fac_facturas")
+@Table(name = "FAC_FACTURAS")
 public class Factura {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "fact_id",nullable = false)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "FACT_ID",nullable = false)
     private String facturaId;
 
-    @Column(name = "fact_direccion",nullable = false)
+    @Column(name = "FACT_DIRECCION",nullable = false)
     private String direccion;
 
-    @Column(name = "fact_fecha_emision",nullable = false)
-    private LocalDateTime fechaEmision;
+    @Column(name = "FACT_FECHA_EMISION",nullable = false)
+    private LocalDateTime fechaHoraEmision;
 
-    @Column(name = "fact_fecha_pago",nullable = false)
-    private LocalDateTime fechaPago;
+    @Column(name = "FACT_FECHA_PAGO",nullable = false)
+    private LocalDateTime fechaHoraPago;
 
-    @Column(name = "fact_tipo_pago",nullable = false)
+    @Column(name = "FACT_TIPO_PAGO",nullable = false)
     private String tipoPago;
 
-    @Column(name = "fact_estado",nullable = false)
+    @Column(name = "FACT_ESTADO",nullable = false)
     private Character estado;
 
-    @Column(name = "fact_subtotal", precision=7, scale=2, nullable = false)
+    @Column(name = "FACT_SUBTOTAL", precision=7, scale=2, nullable = false)
     private BigDecimal subtotal;
 
-    @Column(name = "fact_impuesto",precision=7, scale=2, nullable = false)
+    @Column(name = "FACT_IMPUESTO",precision=7, scale=2, nullable = false)
     private BigDecimal impuesto;
 
-    @Column(name = "fact_total", precision=7, scale=2, nullable = false)
+    @Column(name = "FACT_TOTAL", precision=7, scale=2, nullable = false)
     private BigDecimal total;
 
 
-    // TODO: ORM Cliente - Detalles
+    // TODO:
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cli_id", nullable = false)
+    @JoinColumn(name = "CLI_id", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "factura", fetch = FetchType.LAZY)

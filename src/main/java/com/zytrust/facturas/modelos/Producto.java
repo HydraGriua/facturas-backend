@@ -29,8 +29,6 @@ public class Producto {
     private BigDecimal precioUnitario;
 
     //TODO ORM Detalle - Categoria
-    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
-    private List<DetalleFactura> detalles;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catprod_id", nullable = false)

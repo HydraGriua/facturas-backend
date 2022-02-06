@@ -1,15 +1,21 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
 import com.zytrust.facturas.dtos.CreateFacturaDto;
+import com.zytrust.facturas.dtos.FacturaDto;
 import com.zytrust.facturas.modelos.Cliente;
 import com.zytrust.facturas.modelos.Factura;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
 import com.zytrust.facturas.repositorios.FacturaRepositorio;
 import com.zytrust.facturas.servicios.FacturaServicio;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FacturaServicioImpl implements FacturaServicio {
@@ -20,18 +26,25 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Autowired
     ClienteRepositorio clienteRepositorio;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     @Override
-    public List<Factura> getAll() {
-        return facturaRepositorio.findAll();
+    @Transactional(readOnly = true)
+    public List<FacturaDto> getAll() {
+        return facturaRepositorio.findAll().stream()
+                .map(this::facturaToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Factura getFactura(String id) throws Exception {
-        return facturaRepositorio.findById(id).orElseThrow(()-> new Exception("No se encontro Factura con id:" + id));
+    @Transactional(readOnly = true)
+    public FacturaDto getFactura(String id) throws Exception {
+        return facturaToDto(facturaRepositorio.findById(id).orElseThrow(()-> new Exception("No se encontro Factura con id:" + id)));
     }
 
     @Override
-    public Factura createFactura(CreateFacturaDto factura) throws Exception {
+    @Transactional
+    public FacturaDto createFactura(CreateFacturaDto factura) throws Exception {
         Cliente cliente = clienteRepositorio.findById(factura.getClienteId()).orElseThrow(()-> new Exception("No se encontro Cliente con id:" + factura.getClienteId()));
         Factura facturaEntidad = Factura.builder()
                 .cliente(cliente)
@@ -39,11 +52,15 @@ public class FacturaServicioImpl implements FacturaServicio {
                 .fechaEmision(factura.getFechaEmision())
                 .fechaPago(factura.getFechaPago())
                 .tipoPago(factura.getTipoPago())
-                .estado(factura.getEstado())
+                .estado('i')
                 .subtotal(factura.getSubtotal())
-                .impuesto(factura.getImpuesto())
+                .impuesto(factura.getSubtotal().multiply(new BigDecimal(0.18)))
                 .total(factura.getTotal())
                 .build();
-        return facturaRepositorio.save(facturaEntidad);
+        return facturaToDto(facturaRepositorio.save(facturaEntidad));
+    }
+
+    public FacturaDto facturaToDto(Factura factura){
+        return modelMapper.map(factura, FacturaDto.class);
     }
 }

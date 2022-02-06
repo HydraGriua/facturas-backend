@@ -1,8 +1,7 @@
 package com.zytrust.facturas.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,45 +12,45 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fac_clientes")
+@Table(name = "FAC_CLIENTES")
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cli_id",nullable = false)
+    @Column(name = "CLIE_ID", length = 20, nullable = false)
     private String clienteId;
 
-    @Column(name = "cli_num_doc",nullable = false)
+    @Column(name = "CLIE_NUM_DOC", length = 20, nullable = false)
     private String numDocumento;
 
-    @Column(name = "cli_tipo_doc",nullable = false)
+    @Column(name = "CLIE_TIPO_DOC", length = 20, nullable = false)
     private String tipoDocumento;
 
-    @Column(name = "cli_prim_nombre",nullable = false)
+    @Column(name = "CLIE_PRIM_NOMBRE", length = 40, nullable = false)
     private String primerNombre;
 
-    @Column(name = "cli_prim_apellido",nullable = false)
+    @Column(name = "CLIE_PRIM_APELLIDO", length = 40, nullable = false)
     private String primerApellido;
 
-    @Column(name = "cli_fecha_nacimiento",nullable = false)
+    @Column(name = "CLIE_FECHA_NACIMIENTO", nullable = false)
     private LocalDate fechaNacimiento;
 
-    @Column(name = "cli_genero",nullable = false)
+    @Column(name = "CLIE_GENERO", nullable = false)
     private Character genero;
 
-    @Column(name = "cli_email",nullable = false)
+    @Column(name = "CLIE_EMAIL", length = 30, nullable = false)
     private String email;
 
-    @Column(name = "cli_celular",nullable = false)
+    @Column(name = "CLIE_CELULAR", length = 20, nullable = false)
     private String celular;
 
-    @Column(name = "cli_direccion",nullable = false)
+    @Column(name = "CLIE_DIRECCION", length = 200, nullable = false)
     private String direccion;
 
-    @Column(name = "cli_nom_empresa",nullable = false)
+    @Column(name = "CLIE_NOM_EMPRESA", length = 100, nullable = false)
     private String nombreEmpresa;
 
-    //TODO: ORM Factura
-
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Factura> facturas;
 }
