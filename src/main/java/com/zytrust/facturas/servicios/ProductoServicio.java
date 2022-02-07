@@ -15,7 +15,8 @@ import com.zytrust.facturas.dtos.producto.CreateProductoDto;
 import com.zytrust.facturas.dtos.producto.ProductoDto;
 
 /**
- * Esta interfaz representa a un servicio para producto y debe ser usada para ser
+ * Esta interfaz representa a un servicio para producto y debe ser usada para
+ * ser
  * la interfaz de la clase servicio implementada.
  *
  * @author Flavio Saavedra Montenegro
@@ -26,12 +27,15 @@ public interface ProductoServicio {
 
     /**
      * Permite obtener todos los productos y mapearlos a una lista de Dto
+     * 
      * @return Retorna una lista dto de todos los productos
      */
     List<ProductoDto> getAll();
 
     /**
-     * Permite obtener todos los productos segun el identificador de categoria de producto y mapearlos a una lista de Dto
+     * Permite obtener todos los productos segun el identificador de categoria de
+     * producto y mapearlos a una lista de Dto
+     * 
      * @param categoriaId Identificador de categoria de producto
      * @return Retorna una lista dto de todos los productos de una categoria
      */
@@ -39,17 +43,21 @@ public interface ProductoServicio {
 
     /**
      * Permite la obtencion de un producto segun el identificador de producto
+     * 
      * @param id Identificador de producto
      * @return Retorna un objeto de tipo ProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la obtencion del producto
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion del producto
      */
     ProductoDto getProducto(String id) throws Exception;
 
     /**
      * Permite crear un nuevo producto
+     * 
      * @param producto Dto de creacion para producto
      * @return Retorna un objeto de tipo ProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la obtencion de la categoria de producto
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion de la categoria de producto
      */
     ProductoDto createProducto(CreateProductoDto producto) throws Exception;
 }
