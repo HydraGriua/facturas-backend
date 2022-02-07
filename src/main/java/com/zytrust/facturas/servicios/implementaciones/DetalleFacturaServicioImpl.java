@@ -1,6 +1,7 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
 import com.zytrust.facturas.dtos.detalle.CreateDetalleFacturaDto;
+import com.zytrust.facturas.dtos.detalle.DetalleFacturaDto;
 import com.zytrust.facturas.modelos.DetalleFactura;
 import com.zytrust.facturas.modelos.Factura;
 import com.zytrust.facturas.modelos.Producto;
@@ -8,8 +9,10 @@ import com.zytrust.facturas.repositorios.DetalleFacturaRepositorio;
 import com.zytrust.facturas.repositorios.FacturaRepositorio;
 import com.zytrust.facturas.repositorios.ProductoRepositorio;
 import com.zytrust.facturas.servicios.DetalleFacturaServicio;
+import com.zytrust.facturas.utiles.ConvertidorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,34 +28,48 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     @Autowired
     DetalleFacturaRepositorio detalleFacturaRepositorio;
 
+    @Autowired
+    private ConvertidorDto converter;
+
     @Override
-    public List<DetalleFactura> getAll() {
-        return detalleFacturaRepositorio.findAll();
+    @Transactional(readOnly = true)
+    public List<DetalleFacturaDto> getAll() {
+        return converter.detalleFacturaToDto(detalleFacturaRepositorio.findAll());
     }
 
     @Override
-    public List<DetalleFactura> getAllByFacturaId(String facturaId) throws Exception {
-        if(! facturaRepositorio.existsById(facturaId)){
-            throw  new Exception("No se encontro Factura con id:" + facturaId);
+    @Transactional(readOnly = true)
+    public List<DetalleFacturaDto> getAllByFacturaId(String facturaId) throws Exception {
+        if (!facturaRepositorio.existsById(facturaId)) {
+            throw new Exception("No se encontro Factura con id:" + facturaId);
         }
-        return detalleFacturaRepositorio.findAllByFacturaFacturaId(facturaId);
+        return converter.detalleFacturaToDto(detalleFacturaRepositorio.findAllByFacturaFacturaId(facturaId));
     }
 
     @Override
-    public DetalleFactura getDetalleFactura(String id) throws Exception {
-        return detalleFacturaRepositorio.findById(id).orElseThrow(()-> new Exception("No se encontro Detalle de Factura con id:" + id));
+    @Transactional(readOnly = true)
+    public DetalleFacturaDto getDetalleFactura(String facturaId, String productoId) throws Exception {
+        return converter.detalleFacturaToDto(detalleFacturaRepositorio.findDetalleFactura(facturaId,productoId)
+                .orElseThrow(() -> new Exception("No se encontro Detalle de Factura con Factura Id:" + facturaId
+                        + "y Producto Id:" + productoId)));
     }
 
     @Override
-    public DetalleFactura createDetalleFactura(CreateDetalleFacturaDto detalle) throws Exception {
-        Factura factura = facturaRepositorio.findById(detalle.getFacturaId()).orElseThrow(()-> new Exception("No se encontro Factura con id:" + detalle.getFacturaId()));
-        Producto producto = productoRepositorio.findById(detalle.getProductoId()).orElseThrow(()-> new Exception("No se encontro Producto con id:" + detalle.getProductoId()));
+    @Transactional
+    public DetalleFacturaDto createDetalleFactura(CreateDetalleFacturaDto detalle) throws Exception {
+        Factura factura = facturaRepositorio.findById(detalle.getFacturaId())
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + detalle.getFacturaId()));
+
+        Producto producto = productoRepositorio.findById(detalle.getProductoId())
+                .orElseThrow(() -> new Exception("No se encontro Producto con id:" + detalle.getProductoId()));
+
         DetalleFactura detalleFactura = DetalleFactura.builder()
                 .factura(factura)
                 .producto(producto)
                 .cantidad(detalle.getCantidad())
-                .importe(detalle.getImporte())
+                .importe(producto.getPrecioUnitario().multiply(detalle.getCantidad()))
                 .build();
-        return detalleFacturaRepositorio.save(detalleFactura);
+
+        return converter.detalleFacturaToDto(detalleFacturaRepositorio.save(detalleFactura));
     }
 }

@@ -10,6 +10,7 @@ import com.zytrust.facturas.servicios.ProductoServicio;
 import com.zytrust.facturas.utiles.ConvertidorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,25 +27,29 @@ public class ProductoServicioImpl implements ProductoServicio {
     private ConvertidorDto converter;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductoDto> getAll() {
         return converter.productoToDto(productoRepositorio.findAll());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductoDto> getAllByCategoria(String categoriaId) {
         return converter.productoToDto(productoRepositorio.findAllByCategoriaCategoriaId(categoriaId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProductoDto getProducto(String id) throws Exception {
         return converter.productoToDto(productoRepositorio.findById(id)
-                .orElseThrow(()-> new Exception("No se encontro Producto con id:" + id)));
+                .orElseThrow(() -> new Exception("No se encontro Producto con id:" + id)));
     }
 
     @Override
+    @Transactional
     public ProductoDto createProducto(CreateProductoDto producto) throws Exception {
         CategoriaProducto categoria = categoriaProductoRepositorio.findById(producto.getCategoriaId())
-                .orElseThrow(()-> new Exception("No se encontro Categoria de Producto con id:" + producto.getCategoriaId()));
+                .orElseThrow(() -> new Exception("No se encontro Categoria de Producto con id:" + producto.getCategoriaId()));
 
         Producto productoEntidad = Producto.builder()
                 .nombre(producto.getNombre())
