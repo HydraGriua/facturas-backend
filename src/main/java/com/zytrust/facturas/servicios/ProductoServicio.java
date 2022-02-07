@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ProductoServicio {
     List<ProductoDto> getAll();
+    List<ProductoDto> getAllByCategoria(String categoriaId);
     ProductoDto getProducto(String id) throws Exception;
     ProductoDto createProducto(CreateProductoDto producto) throws Exception;
 }

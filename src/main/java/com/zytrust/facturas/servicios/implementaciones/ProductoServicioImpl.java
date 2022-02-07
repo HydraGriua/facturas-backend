@@ -31,6 +31,11 @@ public class ProductoServicioImpl implements ProductoServicio {
     }
 
     @Override
+    public List<ProductoDto> getAllByCategoria(String categoriaId) {
+        return converter.productoToDto(productoRepositorio.findAllByCategoriaCategoriaId(categoriaId));
+    }
+
+    @Override
     public ProductoDto getProducto(String id) throws Exception {
         return converter.productoToDto(productoRepositorio.findById(id)
                 .orElseThrow(()-> new Exception("No se encontro Producto con id:" + id)));
