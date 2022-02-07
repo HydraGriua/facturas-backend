@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -70,6 +71,14 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
                 .importe(producto.getPrecioUnitario().multiply(detalle.getCantidad()))
                 .build();
 
-        return converter.detalleFacturaToDto(detalleFacturaRepositorio.save(detalleFactura));
+        DetalleFactura detalleFacturaBD = detalleFacturaRepositorio.save(detalleFactura);
+
+        factura.setSubtotal(factura.getSubtotal().add(detalleFacturaBD.getImporte()));
+        factura.setImpuesto(factura.getSubtotal().multiply(new BigDecimal("0.18")));
+        factura.setTotal(factura.getSubtotal().add(factura.getImpuesto()));
+
+        facturaRepositorio.save(factura);
+
+        return converter.detalleFacturaToDto(detalleFacturaBD);
     }
 }

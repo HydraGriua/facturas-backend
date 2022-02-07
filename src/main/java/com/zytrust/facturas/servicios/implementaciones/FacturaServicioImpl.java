@@ -42,7 +42,7 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Transactional(readOnly = true)
     public FacturaDto getFactura(String id) throws Exception {
         return converter.facturaToDto(facturaRepositorio.findById(id)
-                .orElseThrow(()-> new Exception("No se encontro Factura con id:" + id)));
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + id)));
     }
 
     @Override
@@ -50,20 +50,20 @@ public class FacturaServicioImpl implements FacturaServicio {
     public FacturaDto createFactura(CreateFacturaDto factura) throws Exception {
 
         Cliente cliente = clienteRepositorio.findById(factura.getClienteId())
-                .orElseThrow(()-> new Exception("No se encontro Cliente con id:" + factura.getClienteId()));
+                .orElseThrow(() -> new Exception("No se encontro Cliente con id:" + factura.getClienteId()));
 
-        BigDecimal subtotal = factura.getSubtotal();
-        BigDecimal impuesto = factura.getSubtotal().multiply(new BigDecimal("0.18"));
-        BigDecimal total = subtotal.add(impuesto);
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+        LocalDateTime fecha = LocalDateTime.of(hoy, ahora);
 
         Factura facturaEntidad = Factura.builder()
                 .cliente(cliente)
                 .direccion(factura.getDireccion())
-                .fechaHoraEmision(factura.getFechaEmision())
+                .fechaHoraEmision(fecha)
                 .estado('i')
-                .subtotal(subtotal)
-                .impuesto(impuesto)
-                .total(total)
+                .subtotal(new BigDecimal("0"))
+                .impuesto(new BigDecimal("0"))
+                .total(new BigDecimal("0"))
                 .build();
 
         return converter.facturaToDto(facturaRepositorio.save(facturaEntidad));
@@ -72,7 +72,7 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Override
     public FacturaDto updateEstadoFactura(Character estado, String facturaId) throws Exception {
         Factura factura = facturaRepositorio.findById(facturaId)
-                .orElseThrow(()-> new Exception("No se encontro Factura con id:" + facturaId));
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + facturaId));
 
         factura.setEstado(estado);
 
@@ -82,7 +82,7 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Override
     public FacturaDto pagoFactura(String tipoPago, String facturaId) throws Exception {
         Factura factura = facturaRepositorio.findById(facturaId)
-                .orElseThrow(()-> new Exception("No se encontro Factura con id:" + facturaId));
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + facturaId));
 
         factura.setEstado('c');
         factura.setTipoPago(tipoPago);
