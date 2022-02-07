@@ -29,10 +29,10 @@ public class Factura {
     @Column(name = "FACT_FECHA_EMISION",nullable = false)
     private LocalDateTime fechaHoraEmision;
 
-    @Column(name = "FACT_FECHA_PAGO",nullable = false)
+    @Column(name = "FACT_FECHA_PAGO")
     private LocalDateTime fechaHoraPago;
 
-    @Column(name = "FACT_TIPO_PAGO",nullable = false)
+    @Column(name = "FACT_TIPO_PAGO")
     private String tipoPago;
 
     @Column(name = "FACT_ESTADO",nullable = false)

@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,8 +60,6 @@ public class FacturaServicioImpl implements FacturaServicio {
                 .cliente(cliente)
                 .direccion(factura.getDireccion())
                 .fechaHoraEmision(factura.getFechaEmision())
-                .fechaHoraPago(factura.getFechaPago())
-                .tipoPago(factura.getTipoPago())
                 .estado('i')
                 .subtotal(subtotal)
                 .impuesto(impuesto)
@@ -66,6 +67,32 @@ public class FacturaServicioImpl implements FacturaServicio {
                 .build();
 
         return converter.facturaToDto(facturaRepositorio.save(facturaEntidad));
+    }
+
+    @Override
+    public FacturaDto updateEstadoFactura(Character estado, String facturaId) throws Exception {
+        Factura factura = facturaRepositorio.findById(facturaId)
+                .orElseThrow(()-> new Exception("No se encontro Factura con id:" + facturaId));
+
+        factura.setEstado(estado);
+
+        return converter.facturaToDto(facturaRepositorio.save(factura));
+    }
+
+    @Override
+    public FacturaDto pagoFactura(String tipoPago, String facturaId) throws Exception {
+        Factura factura = facturaRepositorio.findById(facturaId)
+                .orElseThrow(()-> new Exception("No se encontro Factura con id:" + facturaId));
+
+        factura.setEstado('c');
+        factura.setTipoPago(tipoPago);
+
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+        LocalDateTime fecha = LocalDateTime.of(hoy, ahora);
+        factura.setFechaHoraPago(fecha);
+
+        return converter.facturaToDto(facturaRepositorio.save(factura));
     }
 
 }

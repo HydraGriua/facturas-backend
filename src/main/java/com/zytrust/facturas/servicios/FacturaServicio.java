@@ -9,4 +9,6 @@ public interface FacturaServicio {
     List<FacturaDto> getAll();
     FacturaDto getFactura(String id) throws Exception;
     FacturaDto createFactura(CreateFacturaDto factura) throws Exception;
+    FacturaDto updateEstadoFactura(Character estado, String facturaId) throws Exception;
+    FacturaDto pagoFactura(String tipoPago, String facturaId) throws Exception;
 }

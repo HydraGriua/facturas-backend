@@ -19,12 +19,6 @@ public class CreateFacturaDto {
 
     private LocalDateTime fechaEmision;
 
-    private LocalDateTime fechaPago;
-
-    @NotEmpty
-    @Size(min = 4, message = "Debe contener al menos 4 caracteres")
-    private String tipoPago;
-
     private BigDecimal subtotal;
 
     @NotEmpty
