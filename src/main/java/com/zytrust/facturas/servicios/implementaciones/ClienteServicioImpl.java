@@ -5,6 +5,7 @@ import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
 import com.zytrust.facturas.modelos.Cliente;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
 import com.zytrust.facturas.servicios.ClienteServicio;
+import com.zytrust.facturas.utiles.ConvertidorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,21 +18,25 @@ public class ClienteServicioImpl implements ClienteServicio {
     @Autowired
     ClienteRepositorio clienteRepositorio;
 
+    @Autowired
+    private ConvertidorDto converter;
+
     @Override
     @Transactional(readOnly = true)
     public List<ClienteDto> getAll() {
-        return clienteRepositorio.findAll();
+        return converter.clienteToDto(clienteRepositorio.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Cliente getCliente(String id) throws Exception {
-        return clienteRepositorio.findById(id).orElseThrow(()-> new Exception("No se encontro Cliente con id:" + id));
+    public ClienteDto getCliente(String id) throws Exception {
+        return converter.clienteToDto(clienteRepositorio.findById(id)
+                .orElseThrow(() -> new Exception("No se encontro Cliente con id:" + id)));
     }
 
     @Override
     @Transactional
-    public Cliente createCliente(CreateClienteDto cliente) {
+    public ClienteDto createCliente(CreateClienteDto cliente) {
         Cliente clienteEntidad = Cliente.builder()
                 .primerNombre(cliente.getPrimerNombre())
                 .primerApellido(cliente.getPrimerApellido())
@@ -44,6 +49,6 @@ public class ClienteServicioImpl implements ClienteServicio {
                 .direccion(cliente.getDireccion())
                 .nombreEmpresa(cliente.getNombreEmpresa())
                 .build();
-        return clienteRepositorio.save(clienteEntidad);
+        return converter.clienteToDto(clienteRepositorio.save(clienteEntidad));
     }
 }
