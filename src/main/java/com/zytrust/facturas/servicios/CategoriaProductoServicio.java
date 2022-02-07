@@ -47,7 +47,7 @@ public interface CategoriaProductoServicio {
      * Permite crear una nueva categoria de producto
      *
      * @param categoria Dto de creacion para categoria de producto
-     * @return Retorna un Objeto de tipo CatgoriaProductoDto
+     * @return Retorna un Objeto de tipo CategoriaProductoDto
      */
     CategoriaProductoDto createCategoriaProducto(CreateCategoriaProductoDto categoria);
 }
