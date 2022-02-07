@@ -27,7 +27,7 @@ public interface ProductoServicio {
 
     /**
      * Permite obtener todos los productos y mapearlos a una lista de Dto
-     * 
+     *
      * @return Retorna una lista dto de todos los productos
      */
     List<ProductoDto> getAll();
@@ -35,7 +35,7 @@ public interface ProductoServicio {
     /**
      * Permite obtener todos los productos segun el identificador de categoria de
      * producto y mapearlos a una lista de Dto
-     * 
+     *
      * @param categoriaId Identificador de categoria de producto
      * @return Retorna una lista dto de todos los productos de una categoria
      */
@@ -43,7 +43,7 @@ public interface ProductoServicio {
 
     /**
      * Permite la obtencion de un producto segun el identificador de producto
-     * 
+     *
      * @param id Identificador de producto
      * @return Retorna un objeto de tipo ProductoDto
      * @throws Exception Emite una excepcion basica para informar de error en la
@@ -53,7 +53,7 @@ public interface ProductoServicio {
 
     /**
      * Permite crear un nuevo producto
-     * 
+     *
      * @param producto Dto de creacion para producto
      * @return Retorna un objeto de tipo ProductoDto
      * @throws Exception Emite una excepcion basica para informar de error en la
