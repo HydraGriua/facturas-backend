@@ -1,23 +1,54 @@
+/*
+ * @(#)ApiResponse.java
+ *
+ * Copyright 2019 ZyTrust SA, Todos los derechos reservados.
+ * ZT PROPRIETARIO/CONFIDENTIALIDAD. Su uso está sujeto a los
+ * términos de la licencia adquirida a ZyTrust SA.
+ * No se permite modificar, copiar ni difundir sin autorización
+ * expresa de ZyTrust SA.
+ */
+
 package com.zytrust.facturas.dtos;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * Esta clase representa a un objeto response para el API y debe ser usada para almacenar
+ * datos y exponerlos en los controladores.
+ *
+ * @author Flavio Saavedra Montenegro
+ * @version 1, 07/02/2022
+ */
+
 @Data
 public class ApiResponse<T> implements Serializable {
 
-    private String status;
-    private String code;
-    private String message;
-    private T data;
+    private String status; /** Descripcion de estado del response */
+    private String code; /** Codigo HTTP del response */
+    private String message; /** Mensaje del response */
+    private T data; /** Data que transporta el response */
 
+    /**
+     * Permite instanciar un response sin data para los controladores
+     * @param status Estado del response a enviar
+     * @param code Codigo HTTP a enviar
+     * @param message Mensaje que se enviara con el response
+     */
     public ApiResponse(String status, String code, String message){
         this.status = status;
         this.code = code;
         this.message = message;
     }
 
+    /**
+     * Permite instanciar un response conteniendo data para los controladores
+     * @param status Estado del response a enviar
+     * @param code Codigo HTTP a enviar
+     * @param message Mensaje que se enviara con el response
+     * @param data Objeto que se enviara junto con el Response
+     */
     public ApiResponse(String status, String code, String message, T data){
         this.status = status;
         this.code = code;
