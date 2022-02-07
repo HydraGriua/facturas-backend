@@ -48,7 +48,7 @@ public class Producto {
     private String descripcion;
 
     /** Precio de venta unitario de producto */
-    @Column(name = "PROD_PRECIO_UNIT",precision=5, scale=2,nullable = false)
+    @Column(name = "PROD_PRECIO_UNIT", precision = 5, scale = 2, nullable = false)
     private BigDecimal precioUnitario;
 
     /** Categoria de producto */

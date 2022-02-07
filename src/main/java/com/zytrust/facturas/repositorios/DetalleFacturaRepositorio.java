@@ -19,18 +19,19 @@ import org.springframework.stereotype.Repository;
 import com.zytrust.facturas.modelos.DetalleFactura;
 
 /**
- * Esta interfaz representa a un respositorio para cliente y debe ser usada para realizar
- * consultas a la base de datos e intercambiar datos con servicios.
+ * Esta interfaz representa a un respositorio para cliente y debe ser usada para
+ * realizar consultas a la base de datos e intercambiar datos con servicios.
  *
  * @author Flavio Saavedra Montenegro
  * @version 1, 07/02/2022
  */
 
 @Repository
-public interface DetalleFacturaRepositorio extends JpaRepository<DetalleFactura,String> {
+public interface DetalleFacturaRepositorio extends JpaRepository<DetalleFactura, String> {
 
     /**
      * Permite obtener todos los detalles segun el identificador de factura
+     * 
      * @param facturaId Identificador de factura
      * @return Retorna una lista de detalles de la factura
      */
@@ -39,10 +40,12 @@ public interface DetalleFacturaRepositorio extends JpaRepository<DetalleFactura,
     /**
      * Permite obtener un detalle de factura segun el identificador de factura
      * y el identificador de producto
-     * @param facturaId Identificador de factura
+     * 
+     * @param facturaId  Identificador de factura
      * @param productoId Identificador de producto
      * @return Retorna un detalle de factura
      */
     @Query("SELECT df FROM DetalleFactura df WHERE df.factura.facturaId = :facturaId AND df.producto.productoId = :productoId")
-    Optional<DetalleFactura> findDetalleFactura(@Param("facturaId") String facturaId, @Param("productoId") String productoId);
+    Optional<DetalleFactura> findDetalleFactura(@Param("facturaId") String facturaId,
+            @Param("productoId") String productoId);
 }

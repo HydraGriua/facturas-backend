@@ -62,8 +62,8 @@ public class DetalleFacturaControlador {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/facturas/{facturaId}/detalles")
-    public ApiResponse<List<DetalleFacturaDto>> getAllDetalleFacturaByFacturaId(@PathVariable String facturaId)
-            throws Exception {
+    public ApiResponse<List<DetalleFacturaDto>> getAllDetalleFacturaByFacturaId(
+            @PathVariable String facturaId) throws Exception {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 detalleFacturaServicio.getAllByFacturaId(facturaId));
     }

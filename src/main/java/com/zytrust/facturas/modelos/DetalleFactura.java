@@ -36,12 +36,12 @@ public class DetalleFactura {
     @EmbeddedId
     private DetalleFacturaId detalleFacturaId;
 
-    /** cantidad de producto  en el detalle de factura*/
-    @Column(name = "DETFACT_CANTIDAD",nullable = false)
+    /** cantidad de producto en el detalle de factura */
+    @Column(name = "DETFACT_CANTIDAD", nullable = false)
     private BigDecimal cantidad;
 
     /** Importe a pagar en detalle de factura */
-    @Column(name = "DETFACT_IMPORTE",precision=7, scale=2, nullable = false)
+    @Column(name = "DETFACT_IMPORTE", precision = 7, scale = 2, nullable = false)
     private BigDecimal importe;
 
     /** Factura de pertenencia de detalle */
@@ -59,7 +59,8 @@ public class DetalleFactura {
 }
 
 /**
- * Esta clase representa al identificador de un detalle de factura y debe ser usada para almacenar
+ * Esta clase representa al identificador de un detalle de factura y debe ser
+ * usada para almacenar
  * datos e intercambiarlos con un objeto de tipo DetalleFactura.
  *
  * @author Flavio Saavedra Montenegro

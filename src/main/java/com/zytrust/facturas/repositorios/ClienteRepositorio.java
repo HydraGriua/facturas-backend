@@ -15,13 +15,13 @@ import org.springframework.stereotype.Repository;
 import com.zytrust.facturas.modelos.Cliente;
 
 /**
- * Esta interfaz representa a un respositorio para cliente y debe ser usada para realizar
- * consultas a la base de datos e intercambiar datos con servicios.
+ * Esta interfaz representa a un respositorio para cliente y debe ser usada para
+ * realizar consultas a la base de datos e intercambiar datos con servicios.
  *
  * @author Flavio Saavedra Montenegro
  * @version 1, 07/02/2022
  */
 
 @Repository
-public interface ClienteRepositorio extends JpaRepository<Cliente,String> {
+public interface ClienteRepositorio extends JpaRepository<Cliente, String> {
 }

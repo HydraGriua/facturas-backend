@@ -57,7 +57,8 @@ public class ClienteControlador {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ApiResponse<ClienteDto> createCliente(@RequestBody @Valid CreateClienteDto cliente) {
+    public ApiResponse<ClienteDto> createCliente(
+            @RequestBody @Valid CreateClienteDto cliente) {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 clienteServicio.createCliente(cliente));
     }

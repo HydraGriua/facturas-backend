@@ -70,7 +70,8 @@ public class ProductoServicioImpl implements ProductoServicio {
     @Override
     @Transactional(readOnly = true)
     public List<ProductoDto> getAllByCategoria(String categoriaId) {
-        return converter.productoToDto(productoRepositorio.findAllByCategoriaCategoriaId(categoriaId));
+        return converter.productoToDto(productoRepositorio
+                .findAllByCategoriaCategoriaId(categoriaId));
     }
 
     /**
@@ -99,8 +100,8 @@ public class ProductoServicioImpl implements ProductoServicio {
     @Override
     @Transactional
     public ProductoDto createProducto(CreateProductoDto producto) throws Exception {
-        CategoriaProducto categoria = categoriaProductoRepositorio.findById(producto.getCategoriaId())
-                .orElseThrow(() -> new Exception(
+        CategoriaProducto categoria = categoriaProductoRepositorio
+                .findById(producto.getCategoriaId()).orElseThrow(() -> new Exception(
                         "No se encontro Categoria de Producto con id:" + producto.getCategoriaId()));
 
         Producto productoEntidad = Producto.builder()

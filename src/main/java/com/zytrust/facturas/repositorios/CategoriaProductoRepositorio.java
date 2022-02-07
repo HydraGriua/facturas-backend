@@ -15,7 +15,8 @@ import org.springframework.stereotype.Repository;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 
 /**
- * Esta interfaz representa a un respositorio para categoria de producto y debe ser usada para realizar
+ * Esta interfaz representa a un respositorio para categoria de producto y debe
+ * ser usada para realizar
  * consultas a la base de datos e intercambiar datos con servicios.
  *
  * @author Flavio Saavedra Montenegro
@@ -23,5 +24,5 @@ import com.zytrust.facturas.modelos.CategoriaProducto;
  */
 
 @Repository
-public interface CategoriaProductoRepositorio extends JpaRepository<CategoriaProducto,String> {
+public interface CategoriaProductoRepositorio extends JpaRepository<CategoriaProducto, String> {
 }

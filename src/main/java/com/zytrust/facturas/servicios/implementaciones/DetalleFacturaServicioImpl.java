@@ -83,7 +83,8 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
         if (!facturaRepositorio.existsById(facturaId)) {
             throw new Exception("No se encontro Factura con id:" + facturaId);
         }
-        return converter.detalleFacturaToDto(detalleFacturaRepositorio.findAllByFacturaFacturaId(facturaId));
+        return converter.detalleFacturaToDto(detalleFacturaRepositorio
+                .findAllByFacturaFacturaId(facturaId));
     }
 
     /**
@@ -101,9 +102,10 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     @Override
     @Transactional(readOnly = true)
     public DetalleFacturaDto getDetalleFactura(String facturaId, String productoId) throws Exception {
-        return converter.detalleFacturaToDto(detalleFacturaRepositorio.findDetalleFactura(facturaId, productoId)
-                .orElseThrow(() -> new Exception("No se encontro Detalle de Factura con Factura Id:" + facturaId
-                        + "y Producto Id:" + productoId)));
+        return converter.detalleFacturaToDto(detalleFacturaRepositorio
+                .findDetalleFactura(facturaId, productoId)
+                .orElseThrow(() -> new Exception("No se encontro Detalle de Factura con Factura Id:"
+                        + facturaId + "y Producto Id:" + productoId)));
     }
 
     /**
@@ -119,10 +121,12 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     @Transactional
     public DetalleFacturaDto createDetalleFactura(CreateDetalleFacturaDto detalle) throws Exception {
         Factura factura = facturaRepositorio.findById(detalle.getFacturaId())
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + detalle.getFacturaId()));
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:"
+                        + detalle.getFacturaId()));
 
         Producto producto = productoRepositorio.findById(detalle.getProductoId())
-                .orElseThrow(() -> new Exception("No se encontro Producto con id:" + detalle.getProductoId()));
+                .orElseThrow(() -> new Exception("No se encontro Producto con id:"
+                        + detalle.getProductoId()));
 
         DetalleFactura detalleFactura = DetalleFactura.builder()
                 .factura(factura)

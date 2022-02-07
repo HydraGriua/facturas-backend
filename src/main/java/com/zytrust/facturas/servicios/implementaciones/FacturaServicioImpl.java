@@ -92,7 +92,8 @@ public class FacturaServicioImpl implements FacturaServicio {
     public FacturaDto createFactura(CreateFacturaDto factura) throws Exception {
 
         Cliente cliente = clienteRepositorio.findById(factura.getClienteId())
-                .orElseThrow(() -> new Exception("No se encontro Cliente con id:" + factura.getClienteId()));
+                .orElseThrow(() -> new Exception("No se encontro Cliente con id:"
+                + factura.getClienteId()));
 
         LocalDate hoy = LocalDate.now();
         LocalTime ahora = LocalTime.now();
@@ -123,7 +124,8 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Override
     public FacturaDto updateEstadoFactura(Character estado, String facturaId) throws Exception {
         Factura factura = facturaRepositorio.findById(facturaId)
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + facturaId));
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:"
+                + facturaId));
 
         factura.setEstado(estado);
 
@@ -142,7 +144,8 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Override
     public FacturaDto pagoFactura(String tipoPago, String facturaId) throws Exception {
         Factura factura = facturaRepositorio.findById(facturaId)
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + facturaId));
+                .orElseThrow(() -> new Exception("No se encontro Factura con id:"
+                + facturaId));
 
         factura.setEstado('c');
         factura.setTipoPago(tipoPago);

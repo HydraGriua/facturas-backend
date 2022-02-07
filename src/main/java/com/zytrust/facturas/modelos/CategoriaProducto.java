@@ -16,7 +16,8 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * Esta clase representa a una categoria de producto y debe ser usada para almacenar
+ * Esta clase representa a una categoria de producto y debe ser usada para
+ * almacenar
  * datos e intercambiarlos con otros objetos.
  *
  * @author Flavio Saavedra Montenegro

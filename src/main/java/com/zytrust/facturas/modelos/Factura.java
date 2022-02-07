@@ -17,7 +17,6 @@ import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-
 /**
  * Esta clase representa a una factura y debe ser usada para almacenar
  * datos e intercambiarlos con otros objetos.
