@@ -1,5 +1,5 @@
 /*
- * @(#)ProductoDto.java
+ * @(#)CreateProductoDto.java
  *
  * Copyright 2019 ZyTrust SA, Todos los derechos reservados.
  * ZT PROPRIETARIO/CONFIDENTIALIDAD. Su uso está sujeto a los
