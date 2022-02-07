@@ -1,13 +1,12 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
-import com.zytrust.facturas.dtos.CreateFacturaDto;
-import com.zytrust.facturas.dtos.FacturaDto;
+import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
+import com.zytrust.facturas.dtos.Factura.FacturaDto;
 import com.zytrust.facturas.modelos.Cliente;
 import com.zytrust.facturas.modelos.Factura;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
 import com.zytrust.facturas.repositorios.FacturaRepositorio;
 import com.zytrust.facturas.servicios.FacturaServicio;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,6 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Autowired
     ClienteRepositorio clienteRepositorio;
 
-    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
     @Transactional(readOnly = true)

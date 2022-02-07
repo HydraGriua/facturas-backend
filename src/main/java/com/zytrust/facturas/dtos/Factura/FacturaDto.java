@@ -1,4 +1,4 @@
-package com.zytrust.facturas.dtos;
+package com.zytrust.facturas.dtos.Factura;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,21 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class FacturaDto {
+
     private String facturaId;
-
     private String direccion;
-
     private LocalDateTime fechaEmision;
-
     private LocalDateTime fechaPago;
-
     private String tipoPago;
-
     private BigDecimal subtotal;
-
     private BigDecimal impuesto;
-
     private BigDecimal total;
-
     private String clienteId;
 }

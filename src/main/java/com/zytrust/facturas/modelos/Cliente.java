@@ -51,6 +51,5 @@ public class Cliente {
     private String nombreEmpresa;
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<Factura> facturas;
 }

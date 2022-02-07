@@ -1,7 +1,7 @@
 package com.zytrust.facturas.controladores;
 
 import com.zytrust.facturas.dtos.ApiResponse;
-import com.zytrust.facturas.dtos.CreateCategoriaProductoDto;
+import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 import com.zytrust.facturas.servicios.CategoriaProductoServicio;
 import org.springframework.beans.factory.annotation.Autowired;

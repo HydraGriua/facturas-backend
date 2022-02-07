@@ -1,6 +1,6 @@
 package com.zytrust.facturas.servicios;
 
-import com.zytrust.facturas.dtos.CreateCategoriaProductoDto;
+import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 
 import java.util.List;

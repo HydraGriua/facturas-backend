@@ -1,4 +1,4 @@
-package com.zytrust.facturas.dtos;
+package com.zytrust.facturas.dtos.cliente;
 
 import lombok.Getter;
 import lombok.Setter;

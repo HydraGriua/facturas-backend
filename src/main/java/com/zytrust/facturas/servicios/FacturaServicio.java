@@ -1,8 +1,7 @@
 package com.zytrust.facturas.servicios;
 
-import com.zytrust.facturas.dtos.CreateFacturaDto;
-import com.zytrust.facturas.dtos.FacturaDto;
-import com.zytrust.facturas.modelos.Factura;
+import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
+import com.zytrust.facturas.dtos.Factura.FacturaDto;
 
 import java.util.List;
 

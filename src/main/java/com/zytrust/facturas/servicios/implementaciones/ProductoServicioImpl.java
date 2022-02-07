@@ -1,7 +1,6 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
-import com.zytrust.facturas.dtos.CreateClienteDto;
-import com.zytrust.facturas.dtos.CreateProductoDto;
+import com.zytrust.facturas.dtos.producto.CreateProductoDto;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 import com.zytrust.facturas.modelos.Producto;
 import com.zytrust.facturas.repositorios.CategoriaProductoRepositorio;

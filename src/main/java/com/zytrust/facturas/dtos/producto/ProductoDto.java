@@ -1,19 +1,13 @@
-package com.zytrust.facturas.dtos;
-
-import lombok.Getter;
-import lombok.Setter;
+package com.zytrust.facturas.dtos.producto;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-public class CreateProductoDto {
+public class ProductoDto {
+
+    private String productoId;
     private String nombre;
-
     private String descripcion;
-
     private BigDecimal precioUnitario;
-
     private String categoriaId;
 }

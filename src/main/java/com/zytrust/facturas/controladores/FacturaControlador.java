@@ -1,8 +1,8 @@
 package com.zytrust.facturas.controladores;
 
 import com.zytrust.facturas.dtos.ApiResponse;
-import com.zytrust.facturas.dtos.CreateFacturaDto;
-import com.zytrust.facturas.dtos.FacturaDto;
+import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
+import com.zytrust.facturas.dtos.Factura.FacturaDto;
 import com.zytrust.facturas.servicios.FacturaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

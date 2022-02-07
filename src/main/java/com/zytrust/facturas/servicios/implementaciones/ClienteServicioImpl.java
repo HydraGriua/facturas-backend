@@ -1,6 +1,7 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
-import com.zytrust.facturas.dtos.CreateClienteDto;
+import com.zytrust.facturas.dtos.cliente.ClienteDto;
+import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
 import com.zytrust.facturas.modelos.Cliente;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
 import com.zytrust.facturas.servicios.ClienteServicio;
@@ -18,7 +19,7 @@ public class ClienteServicioImpl implements ClienteServicio {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Cliente> getAll() {
+    public List<ClienteDto> getAll() {
         return clienteRepositorio.findAll();
     }
 
