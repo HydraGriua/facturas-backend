@@ -1,7 +1,11 @@
 package com.zytrust.facturas.dtos.categoria;
 
-import javax.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 public class CategoriaProductoDto {
 
     private String categoriaId;

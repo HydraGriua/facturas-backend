@@ -7,6 +7,7 @@ import com.zytrust.facturas.modelos.Factura;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
 import com.zytrust.facturas.repositorios.FacturaRepositorio;
 import com.zytrust.facturas.servicios.FacturaServicio;
+import com.zytrust.facturas.utiles.ConvertidorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,40 +26,46 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Autowired
     ClienteRepositorio clienteRepositorio;
 
+    @Autowired
+    private ConvertidorDto converter;
 
     @Override
     @Transactional(readOnly = true)
     public List<FacturaDto> getAll() {
-        return facturaRepositorio.findAll().stream()
-                .map(this::facturaToDto)
-                .collect(Collectors.toList());
+        return converter.facturaToDto(facturaRepositorio.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
     public FacturaDto getFactura(String id) throws Exception {
-        return facturaToDto(facturaRepositorio.findById(id).orElseThrow(()-> new Exception("No se encontro Factura con id:" + id)));
+        return converter.facturaToDto(facturaRepositorio.findById(id)
+                .orElseThrow(()-> new Exception("No se encontro Factura con id:" + id)));
     }
 
     @Override
     @Transactional
     public FacturaDto createFactura(CreateFacturaDto factura) throws Exception {
-        Cliente cliente = clienteRepositorio.findById(factura.getClienteId()).orElseThrow(()-> new Exception("No se encontro Cliente con id:" + factura.getClienteId()));
+
+        Cliente cliente = clienteRepositorio.findById(factura.getClienteId())
+                .orElseThrow(()-> new Exception("No se encontro Cliente con id:" + factura.getClienteId()));
+
+        BigDecimal subtotal = factura.getSubtotal();
+        BigDecimal impuesto = factura.getSubtotal().multiply(new BigDecimal("0.18"));
+        BigDecimal total = subtotal.add(impuesto);
+
         Factura facturaEntidad = Factura.builder()
                 .cliente(cliente)
                 .direccion(factura.getDireccion())
-                .fechaEmision(factura.getFechaEmision())
-                .fechaPago(factura.getFechaPago())
+                .fechaHoraEmision(factura.getFechaEmision())
+                .fechaHoraPago(factura.getFechaPago())
                 .tipoPago(factura.getTipoPago())
                 .estado('i')
-                .subtotal(factura.getSubtotal())
-                .impuesto(factura.getSubtotal().multiply(new BigDecimal(0.18)))
-                .total(factura.getTotal())
+                .subtotal(subtotal)
+                .impuesto(impuesto)
+                .total(total)
                 .build();
-        return facturaToDto(facturaRepositorio.save(facturaEntidad));
+
+        return converter.facturaToDto(facturaRepositorio.save(facturaEntidad));
     }
 
-    public FacturaDto facturaToDto(Factura factura){
-        return modelMapper.map(factura, FacturaDto.class);
-    }
 }
