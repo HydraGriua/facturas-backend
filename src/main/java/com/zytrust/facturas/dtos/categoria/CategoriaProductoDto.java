@@ -25,7 +25,12 @@ import lombok.Setter;
 @Setter
 public class CategoriaProductoDto {
 
-    private String categoriaId; /** Identificador de categoria de productos */
-    private String nombre; /** Nombre de categoria de productos */
-    private String descripcion; /** Descripcion de categoria de productos */
+    /** Identificador de categoria de productos */
+    private String categoriaId;
+
+    /** Nombre de categoria de productos */
+    private String nombre;
+
+    /** Descripcion de categoria de productos */
+    private String descripcion;
 }

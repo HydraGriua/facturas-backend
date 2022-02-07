@@ -26,9 +26,18 @@ import lombok.Setter;
 @Setter
 public class ProductoDto {
 
-    private String productoId; /** Identificador de producto */
-    private String nombre; /** Nombre de producto */
-    private String descripcion; /** Descripcion de producto */
-    private BigDecimal precioUnitario; /** Precio de venta unitario de producto */
-    private String categoriaId; /** Categoria de producto */
+    /** Identificador de producto */
+    private String productoId;
+
+    /** Nombre de producto */
+    private String nombre;
+
+    /** Descripcion de producto */
+    private String descripcion;
+
+    /** Precio de venta unitario de producto */
+    private BigDecimal precioUnitario;
+
+    /** Categoria de producto */
+    private String categoriaId;
 }

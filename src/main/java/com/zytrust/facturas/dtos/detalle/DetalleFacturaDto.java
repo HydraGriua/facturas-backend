@@ -26,9 +26,16 @@ import lombok.Setter;
 @Setter
 public class DetalleFacturaDto {
 
-    private String facturaId; /** Identificador de factura */
-    private String productoId; /** Identificador de producto */
-    private BigDecimal cantidad; /** cantidad de producto  en el detalle de factura*/
-    private BigDecimal importe; /** Importe a pagar en detalle de factura */
+    /** Identificador de factura */
+    private String facturaId;
+
+    /** Identificador de producto */
+    private String productoId;
+
+    /** cantidad de producto  en el detalle de factura */
+    private BigDecimal cantidad;
+
+    /** Importe a pagar en detalle de factura */
+    private BigDecimal importe;
 
 }

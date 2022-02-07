@@ -25,10 +25,17 @@ import java.io.Serializable;
 @Data
 public class ApiResponse<T> implements Serializable {
 
-    private String status; /** Descripcion de estado del response */
-    private String code; /** Codigo HTTP del response */
-    private String message; /** Mensaje del response */
-    private T data; /** Data que transporta el response */
+    /** Descripcion de estado del response */
+    private String status;
+
+    /** Codigo HTTP del response */
+    private String code;
+
+    /** Mensaje del response */
+    private String message;
+
+    /** Data que transporta el response */
+    private T data;
 
     /**
      * Permite instanciar un response sin data para los controladores

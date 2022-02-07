@@ -27,14 +27,33 @@ import lombok.Setter;
 @Setter
 public class FacturaDto {
 
-    private String facturaId; /** Identificador de factura */
-    private String direccion; /** Direccion de emision de factura */
-    private LocalDateTime fechaEmision; /** Fecha y Hora de emision de factura */
-    private LocalDateTime fechaPago; /** Fecha y Hora de pago de factura */
-    private String tipoPago; /** Tipo de pago de factura */
-    private Character estado; /** Estado de factura */
-    private BigDecimal subtotal; /** subtotal a pagar de factura */
-    private BigDecimal impuesto; /** Impuesto a pagar de factura */
-    private BigDecimal total; /** Total a pagar de factura */
-    private String clienteId; /** Identificador de cliente */
+    /** Identificador de factura */
+    private String facturaId;
+
+    /** Direccion de emision de factura */
+    private String direccion;
+
+    /** Fecha y Hora de emision de factura */
+    private LocalDateTime fechaEmision;
+
+    /** Fecha y Hora de pago de factura */
+    private LocalDateTime fechaPago;
+
+    /** Tipo de pago de factura */
+    private String tipoPago;
+
+    /** Estado de factura */
+    private Character estado;
+
+    /** subtotal a pagar de factura */
+    private BigDecimal subtotal;
+
+    /** Impuesto a pagar de factura */
+    private BigDecimal impuesto;
+
+    /** Total a pagar de factura */
+    private BigDecimal total;
+
+    /** Identificador de cliente */
+    private String clienteId;
 }
