@@ -32,6 +32,13 @@ public interface FacturaServicio {
     List<FacturaDto> getAll();
 
     /**
+     * Permite obtener todos las facturas segun identificador de cliente y mapearlas a una lista de Dto
+     * @param clienteId
+     * @return Retorna una lista dto de todas las facturas de un cliente
+     */
+    List<FacturaDto> getAllByClienteId(String clienteId);
+
+    /**
      * Permite la obtencion de una factura segun el identificador de factura
      *
      * @param id Identificador de factura

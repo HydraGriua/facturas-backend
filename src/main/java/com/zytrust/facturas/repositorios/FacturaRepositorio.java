@@ -10,6 +10,7 @@
 
 package com.zytrust.facturas.repositorios;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.zytrust.facturas.modelos.Factura;
@@ -24,4 +25,12 @@ import com.zytrust.facturas.modelos.Factura;
 
 @Repository
 public interface FacturaRepositorio extends JpaRepository<Factura, String> {
+
+    /**
+     * Permite obtener todos las facturas segun el identificador de cliente
+     * 
+     * @param clienteId Identificador de cliente
+     * @return Retorna una lista de facturas por cliente
+     */
+    List<Factura> findAllByClienteclienteId(String clienteId);
 }

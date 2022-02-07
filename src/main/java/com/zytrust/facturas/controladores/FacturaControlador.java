@@ -50,6 +50,18 @@ public class FacturaControlador {
     }
 
     /**
+     * Permite obtener todas las facturas segun identificador de cliente
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todas las facturas de un cliente
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public ApiResponse<List<FacturaDto>> getAllFacturasByClienteId(String clienteId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                facturaServicio.getAllByClienteId(clienteId));
+    }
+
+    /**
      * Permite crear una nueva factura
      *
      * @param factura Dto de creacion para factura

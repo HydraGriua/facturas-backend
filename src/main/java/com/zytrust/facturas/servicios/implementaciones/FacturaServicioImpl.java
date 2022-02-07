@@ -65,6 +65,16 @@ public class FacturaServicioImpl implements FacturaServicio {
     }
 
     /**
+     * Permite obtener todos las facturas segun identificador de cliente y mapearlas a una lista de Dto
+     * @param clienteId
+     * @return Retorna una lista dto de todas las facturas de un cliente
+     */
+    @Override
+    public List<FacturaDto> getAllByClienteId(String clienteId) {
+        return converter.facturaToDto(facturaRepositorio.findAllByClienteclienteId(clienteId));
+    }
+
+    /**
      * Permite la obtencion de una factura segun el identificador de factura
      *
      * @param id Identificador de factura
