@@ -2,7 +2,7 @@ package com.zytrust.facturas.controladores;
 
 import com.zytrust.facturas.dtos.ApiResponse;
 import com.zytrust.facturas.dtos.producto.CreateProductoDto;
-import com.zytrust.facturas.modelos.Producto;
+import com.zytrust.facturas.dtos.producto.ProductoDto;
 import com.zytrust.facturas.servicios.ProductoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,20 +14,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/productos")
 public class ProductoControlador {
+
     @Autowired
     ProductoServicio productoServicio;
 
-
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public ApiResponse<List<Producto>> getAllProductos(){
+    public ApiResponse<List<ProductoDto>> getAllProductos(){
         return  new ApiResponse<>("Success", String.valueOf(HttpStatus.OK),"OK",
                 productoServicio.getAll());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ApiResponse<Producto> createProducto(@RequestBody @Valid CreateProductoDto producto) throws Exception {
+    public ApiResponse<ProductoDto> createProducto(@RequestBody @Valid CreateProductoDto producto) throws Exception {
         return new ApiResponse<>("Success",String.valueOf(HttpStatus.OK),"OK",
                 productoServicio.createProducto(producto));
     }

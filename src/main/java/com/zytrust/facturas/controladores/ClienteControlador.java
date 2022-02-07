@@ -1,6 +1,7 @@
 package com.zytrust.facturas.controladores;
 
 import com.zytrust.facturas.dtos.ApiResponse;
+import com.zytrust.facturas.dtos.cliente.ClienteDto;
 import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
 import com.zytrust.facturas.modelos.Cliente;
 import com.zytrust.facturas.servicios.ClienteServicio;
@@ -14,20 +15,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteControlador {
+
     @Autowired
     ClienteServicio clienteServicio;
 
-
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public ApiResponse<List<Cliente>> getAllClientes(){
+    public ApiResponse<List<ClienteDto>> getAllClientes(){
         return  new ApiResponse<>("Success", String.valueOf(HttpStatus.OK),"OK",
                 clienteServicio.getAll());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ApiResponse<Cliente> createCliente(@RequestBody @Valid CreateClienteDto cliente) throws Exception {
+    public ApiResponse<ClienteDto> createCliente(@RequestBody @Valid CreateClienteDto cliente) throws Exception {
         return new ApiResponse<>("Success",String.valueOf(HttpStatus.OK),"OK",
                 clienteServicio.createCliente(cliente));
     }

@@ -1,6 +1,7 @@
 package com.zytrust.facturas.controladores;
 
 import com.zytrust.facturas.dtos.ApiResponse;
+import com.zytrust.facturas.dtos.categoria.CategoriaProductoDto;
 import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 import com.zytrust.facturas.servicios.CategoriaProductoServicio;
@@ -14,20 +15,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/categoria-productos")
 public class CategoriaProductoControlador {
+
     @Autowired
     CategoriaProductoServicio categoriaProductoServicio;
 
-
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public ApiResponse<List<CategoriaProducto>> getAllCategoriaProducto(){
+    public ApiResponse<List<CategoriaProductoDto>> getAllCategoriaProducto(){
         return  new ApiResponse<>("Success", String.valueOf(HttpStatus.OK),"OK",
                 categoriaProductoServicio.getAll());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public ApiResponse<CategoriaProducto> createCategoriaProducto(@RequestBody @Valid CreateCategoriaProductoDto categoriaProducto) throws Exception {
+    public ApiResponse<CategoriaProductoDto> createCategoriaProducto(@RequestBody @Valid CreateCategoriaProductoDto categoriaProducto) throws Exception {
         return new ApiResponse<>("Success",String.valueOf(HttpStatus.OK),"OK",
                 categoriaProductoServicio.createCategoriaProducto(categoriaProducto));
     }
