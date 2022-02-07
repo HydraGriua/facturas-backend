@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Esta clase representa a un dto de cliente y debe ser usada para almacenar
+ * Esta clase representa a un dto de creacion de cliente y debe ser usada para almacenar
  * datos y mapearlos con una entidad cliente.
  *
  * @author Flavio Saavedra Montenegro
