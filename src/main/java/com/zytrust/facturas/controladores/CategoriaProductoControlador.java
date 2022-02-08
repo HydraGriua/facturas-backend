@@ -71,11 +71,11 @@ public class CategoriaProductoControlador {
      * @param categoriaProducto Dto de creacion para categoria de producto
      * @return Retorna un ApiResponse conteniendo un Objeto de tipo CategoriaProductoDto
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ApiResponse<CategoriaProductoDto> createCategoriaProducto(
             @RequestBody @Valid CreateCategoriaProductoDto categoriaProducto) {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
                 categoriaProductoServicio.createCategoriaProducto(categoriaProducto));
     }
 }

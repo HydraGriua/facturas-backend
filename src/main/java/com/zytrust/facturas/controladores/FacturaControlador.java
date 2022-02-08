@@ -83,10 +83,10 @@ public class FacturaControlador {
      * @throws Exception Emite una excepcion basica para informar de error en la
      *                   obtencion del cliente
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/facturas")
     public ApiResponse<FacturaDto> createFactura(@RequestBody @Valid CreateFacturaDto factura) throws Exception {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
                 facturaServicio.createFactura(factura));
     }
 
@@ -101,7 +101,7 @@ public class FacturaControlador {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/facturas/completa")
     public ApiResponse<FacturaDto> createFacturaCompleta(@RequestBody @Valid FacturaCompletaDto factura) throws Exception {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
                 facturaServicio.createFacturaCompleta(factura));
     }
 }

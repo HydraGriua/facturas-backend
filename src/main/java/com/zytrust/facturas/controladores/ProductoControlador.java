@@ -84,10 +84,10 @@ public class ProductoControlador {
      * @throws Exception Emite una excepcion basica para informar de error en la
      *                   obtencion de la categoria de producto
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/productos")
     public ApiResponse<ProductoDto> createProducto(@RequestBody @Valid CreateProductoDto producto) throws Exception {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
                 productoServicio.createProducto(producto));
     }
 }

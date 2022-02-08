@@ -78,11 +78,11 @@ public class DetalleFacturaControlador {
      *                   obtencion de la factura
      *                   o error en la obtencion del producto
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ApiResponse<DetalleFacturaDto> createDetalleFactura(
             @RequestBody @Valid CreateDetalleFacturaDto detalleFactura) throws Exception {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
                 detalleFacturaServicio.createDetalleFactura(detalleFactura));
     }
 }

@@ -69,11 +69,11 @@ public class ClienteControlador {
      * @param cliente Dto de creacion para cliente
      * @return Retorna un ApiResponse conteniendo un Objeto de tipo ClienteDto
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ApiResponse<ClienteDto> createCliente(
             @RequestBody @Valid CreateClienteDto cliente) {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
                 clienteServicio.createCliente(cliente));
     }
 }
