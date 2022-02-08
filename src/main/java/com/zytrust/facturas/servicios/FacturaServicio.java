@@ -12,6 +12,7 @@ package com.zytrust.facturas.servicios;
 
 import java.util.List;
 import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
+import com.zytrust.facturas.dtos.Factura.FacturaCompletaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaDto;
 
 /**
@@ -57,6 +58,17 @@ public interface FacturaServicio {
      *                   obtencion del cliente
      */
     FacturaDto createFactura(CreateFacturaDto factura) throws Exception;
+
+    /**
+     * Permite crear una nueva factura junto con sus detalles
+     *
+     * @param factura Dto completo de creacion para factura
+     * @return Retorna un objeto de tipo FacturaDto
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion del cliente
+     * @version 1.1, 08/02/2022
+     */
+    FacturaDto createFacturaCompleta(FacturaCompletaDto factura) throws Exception;
 
     /**
      * Permite actualizar el estado de una factura

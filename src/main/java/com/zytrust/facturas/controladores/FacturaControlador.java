@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.zytrust.facturas.dtos.ApiResponse;
 import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
+import com.zytrust.facturas.dtos.Factura.FacturaCompletaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaDto;
 import com.zytrust.facturas.servicios.FacturaServicio;
 
@@ -30,7 +31,6 @@ import com.zytrust.facturas.servicios.FacturaServicio;
  */
 
 @RestController
-@RequestMapping("/facturas")
 public class FacturaControlador {
 
     /** Servicio de factura con inyeccion de dependencia */
@@ -43,7 +43,7 @@ public class FacturaControlador {
      * @return Retorna un ApiResponse conteniendo la lista dto de todas las facturas
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping("/facturas")
     public ApiResponse<List<FacturaDto>> getAllFacturas() {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 facturaServicio.getAll());
@@ -55,8 +55,8 @@ public class FacturaControlador {
      * @return Retorna un ApiResponse conteniendo la lista dto de todas las facturas de un cliente
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
-    public ApiResponse<List<FacturaDto>> getAllFacturasByClienteId(String clienteId) {
+    @GetMapping("/clientes/{clienteId}/facturas")
+    public ApiResponse<List<FacturaDto>> getAllFacturasByClienteId(@PathVariable String clienteId) {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 facturaServicio.getAllByClienteId(clienteId));
     }
@@ -70,9 +70,24 @@ public class FacturaControlador {
      *                   obtencion del cliente
      */
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping
+    @PostMapping("/facturas")
     public ApiResponse<FacturaDto> createFactura(@RequestBody @Valid CreateFacturaDto factura) throws Exception {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 facturaServicio.createFactura(factura));
+    }
+
+    /**
+     * Permite crear una nueva factura junto con sus detalles
+     *
+     * @param factura Dto completo de creacion para factura
+     * @return Retorna un ApiResponse conteniendo un objeto de tipo FacturaDto
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion del cliente u producto
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/facturas/completa")
+    public ApiResponse<FacturaDto> createFacturaCompleta(@RequestBody @Valid FacturaCompletaDto factura) throws Exception {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                facturaServicio.createFacturaCompleta(factura));
     }
 }

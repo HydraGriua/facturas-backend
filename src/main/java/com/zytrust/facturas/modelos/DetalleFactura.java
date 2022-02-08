@@ -29,6 +29,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(DetalleFacturaId.class)
 @Table(name = "FAC_DETALLE_FACTURAS")
 public class DetalleFactura {
 
@@ -46,15 +47,23 @@ public class DetalleFactura {
 
     /** Factura de pertenencia de detalle */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FACT_ID", nullable = false)
-    @MapsId("DETFACT_FACT_ID")
+    @JoinColumn(name = "FACT_ID", nullable = false, insertable = false, updatable = false)
     private Factura factura;
 
     /** Producto en detalle de factura */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PROD_ID", nullable = false)
-    @MapsId("DETFACT_PROD_ID")
+    @JoinColumn(name = "PROD_ID", nullable = false, insertable = false, updatable = false)
     private Producto producto;
+
+    /** Identificador de factura */
+    @Id
+    @Column(name = "FACT_ID", nullable = false, insertable = false)
+    private String facturaId;
+
+    /** Identificador de producto */
+    @Id
+    @Column(name = "PROD_ID", nullable = false, insertable = false)
+    private String productoId;
 
 }
 
@@ -68,14 +77,11 @@ public class DetalleFactura {
  */
 
 @Data
-@Embeddable
 class DetalleFacturaId implements Serializable {
 
     /** Identificador de factura */
-    @Column(name = "DETFACT_FACT_ID")
     private String facturaId;
 
     /** Identificador de producto */
-    @Column(name = "DETFACT_PROD_ID")
     private String productoId;
 }

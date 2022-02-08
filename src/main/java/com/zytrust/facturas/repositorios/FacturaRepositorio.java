@@ -28,9 +28,9 @@ public interface FacturaRepositorio extends JpaRepository<Factura, String> {
 
     /**
      * Permite obtener todos las facturas segun el identificador de cliente
-     * 
+     *
      * @param clienteId Identificador de cliente
      * @return Retorna una lista de facturas por cliente
      */
-    List<Factura> findAllByClienteclienteId(String clienteId);
+    List<Factura> findAllByClienteClienteId(String clienteId);
 }
