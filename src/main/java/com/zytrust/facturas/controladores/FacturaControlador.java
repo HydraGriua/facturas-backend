@@ -62,6 +62,20 @@ public class FacturaControlador {
     }
 
     /**
+     * Permite una facturas segun identificador de factura
+     *
+     * @return Retorna un ApiResponse conteniendo dto de la factura
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion de la factura
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/facturas/{facturaId}")
+    public ApiResponse<FacturaDto> getFacturasById(@PathVariable String facturaId) throws Exception {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                facturaServicio.getFactura(facturaId));
+    }
+
+    /**
      * Permite crear una nueva factura
      *
      * @param factura Dto de creacion para factura

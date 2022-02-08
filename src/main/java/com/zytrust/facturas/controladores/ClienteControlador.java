@@ -50,6 +50,20 @@ public class ClienteControlador {
     }
 
     /**
+     * Permite obtener todos los clientes
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todos los clientes
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion del cliente
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{clienteId}")
+    public ApiResponse<ClienteDto> getCliente(String clienteId) throws Exception {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                clienteServicio.getCliente(clienteId));
+    }
+
+    /**
      * Permite crear un cliente
      *
      * @param cliente Dto de creacion para cliente

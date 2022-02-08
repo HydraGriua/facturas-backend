@@ -51,6 +51,21 @@ public class CategoriaProductoControlador {
     }
 
     /**
+     * Permite obtener todas las categorias de productos
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todas las
+     *         categorias de productos
+     * @throws Exception Emite una excepcion basica para informar de error en la
+     *                   obtencion de la categoria
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{categoriaId}")
+    public ApiResponse<CategoriaProductoDto> getCategoriaProducto(@PathVariable String categoriaId) throws Exception {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                categoriaProductoServicio.getCategoriaProducto(categoriaId));
+    }
+
+    /**
      * Permite crear una categoria de producto
      *
      * @param categoriaProducto Dto de creacion para categoria de producto

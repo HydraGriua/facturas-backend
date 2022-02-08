@@ -30,7 +30,6 @@ import com.zytrust.facturas.servicios.ProductoServicio;
  */
 
 @RestController
-@RequestMapping("/productos")
 public class ProductoControlador {
 
     /** Servicio de producto con inyeccion de dependencia */
@@ -44,10 +43,37 @@ public class ProductoControlador {
      *         productos
      */
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping("/productos")
     public ApiResponse<List<ProductoDto>> getAllProductos() {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 productoServicio.getAll());
+    }
+
+    /**
+     * Permite obtener todos los productos segun el identificador de categoria de productos
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todos los
+     *         productos de una categoria
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/categoria-productos/{categoriaId}/productos")
+    public ApiResponse<List<ProductoDto>> getAllProductos(@PathVariable String categoriaId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                productoServicio.getAllByCategoria(categoriaId));
+    }
+
+    /**
+     * Permite obtener todos los productos segun el identificador de categoria de productos
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todos los
+     *         productos de una categoria
+     * @throws Exception
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/productos/{productoId}")
+    public ApiResponse<ProductoDto> getProducto(@PathVariable String productoId) throws Exception {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                productoServicio.getProducto(productoId));
     }
 
     /**
@@ -59,7 +85,7 @@ public class ProductoControlador {
      *                   obtencion de la categoria de producto
      */
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping
+    @PostMapping("/productos")
     public ApiResponse<ProductoDto> createProducto(@RequestBody @Valid CreateProductoDto producto) throws Exception {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 productoServicio.createProducto(producto));
