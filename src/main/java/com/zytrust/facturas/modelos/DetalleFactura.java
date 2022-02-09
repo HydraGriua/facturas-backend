@@ -33,10 +33,6 @@ import lombok.*;
 @Table(name = "FAC_DETALLE_FACTURAS")
 public class DetalleFactura {
 
-    /** Identificador de detalle de factura */
-    @EmbeddedId
-    private DetalleFacturaId detalleFacturaId;
-
     /** cantidad de producto en el detalle de factura */
     @Column(name = "DETFACT_CANTIDAD", nullable = false)
     private BigDecimal cantidad;
