@@ -47,7 +47,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <!-- externas -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -58,6 +58,10 @@
             <artifactId>modelmapper</artifactId>
             <version>2.4.4</version>
         </dependency>
+        <dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-core</artifactId>
+		</dependency>
     </dependencies>
 
     <build>

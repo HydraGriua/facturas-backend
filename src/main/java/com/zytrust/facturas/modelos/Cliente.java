@@ -73,7 +73,7 @@ public class Cliente {
     private String celular;
 
     /** Direccion de cliente */
-    @Column(name = "CLIE_DIRECCION", length = 200, nullable = false)
+    @Column(name = "CLIE_DIRECCION", nullable = false)
     private String direccion;
 
     /** Nombre de empresa donde labora el cliente */

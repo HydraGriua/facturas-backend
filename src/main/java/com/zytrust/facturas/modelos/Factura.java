@@ -42,7 +42,7 @@ public class Factura {
     private String facturaId;
 
     /** Direccion de emision de factura */
-    @Column(name = "FACT_DIRECCION", length = 200, nullable = false)
+    @Column(name = "FACT_DIRECCION", nullable = false)
     private String direccion;
 
     /** Fecha y Hora de emision de factura */
