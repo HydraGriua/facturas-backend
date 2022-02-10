@@ -44,31 +44,24 @@ public interface FacturaServicio {
      *
      * @param id Identificador de factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
-    FacturaDto getFactura(String id) throws Exception;
+    FacturaDto getFactura(String id);
 
     /**
      * Permite crear una nueva factura
      *
      * @param factura Dto de creacion para factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del cliente
      */
-    FacturaDto createFactura(CreateFacturaDto factura) throws Exception;
+    FacturaDto createFactura(CreateFacturaDto factura);
 
     /**
      * Permite crear una nueva factura junto con sus detalles
      *
      * @param factura Dto completo de creacion para factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del cliente
-     * @version 1.1, 08/02/2022
      */
-    FacturaDto createFacturaCompleta(FacturaCompletaDto factura) throws Exception;
+    FacturaDto createFacturaCompleta(FacturaCompletaDto factura);
 
     /**
      * Permite actualizar el estado de una factura
@@ -76,10 +69,8 @@ public interface FacturaServicio {
      * @param estado    Caracter que representa el nuevo estado
      * @param facturaId Identificador de factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
-    FacturaDto updateEstadoFactura(Character estado, String facturaId) throws Exception;
+    FacturaDto updateEstadoFactura(Character estado, String facturaId);
 
     /**
      * Permite agregar informacion para el pago de una factura
@@ -87,8 +78,6 @@ public interface FacturaServicio {
      * @param tipoPago  String que representa el tipo de pago a usar
      * @param facturaId Identificador de factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
-    FacturaDto pagoFactura(String tipoPago, String facturaId) throws Exception;
+    FacturaDto pagoFactura(String tipoPago, String facturaId);
 }

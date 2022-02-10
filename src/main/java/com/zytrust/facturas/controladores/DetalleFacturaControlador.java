@@ -11,12 +11,10 @@
 package com.zytrust.facturas.controladores;
 
 import java.util.List;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.zytrust.facturas.dtos.ApiResponse;
-import com.zytrust.facturas.dtos.detalle.CreateDetalleFacturaDto;
 import com.zytrust.facturas.dtos.detalle.DetalleFacturaDto;
 import com.zytrust.facturas.servicios.DetalleFacturaServicio;
 
@@ -66,23 +64,5 @@ public class DetalleFacturaControlador {
             @PathVariable String facturaId) throws Exception {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 detalleFacturaServicio.getAllByFacturaId(facturaId));
-    }
-
-    /**
-     * Permite crear un nuevo detalle de factura
-     *
-     * @param detalleFactura Dto de creacion para detalle
-     * @return Retorna un ApiResponse conteniendo un objeto de tipo
-     *         DetalleFacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
-     *                   o error en la obtencion del producto
-     */
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public ApiResponse<DetalleFacturaDto> createDetalleFactura(
-            @RequestBody @Valid CreateDetalleFacturaDto detalleFactura) throws Exception {
-        return new ApiResponse<>("Success", String.valueOf(HttpStatus.CREATED), "CREATED",
-                detalleFacturaServicio.createDetalleFactura(detalleFactura));
     }
 }

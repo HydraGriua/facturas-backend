@@ -11,13 +11,17 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zytrust.facturas.dtos.categoria.CategoriaProductoDto;
 import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
+import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 import com.zytrust.facturas.repositorios.CategoriaProductoRepositorio;
 import com.zytrust.facturas.servicios.CategoriaProductoServicio;
+import com.zytrust.facturas.utiles.CodigoError;
 import com.zytrust.facturas.utiles.ConvertidorDto;
 
 /**
@@ -58,13 +62,14 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
      *
      * @param id Identificador de categoria de producto a buscar
      * @return Retorna un objeto de tipo CategoriaProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la categoria
      */
     @Override
-    public CategoriaProductoDto getCategoriaProducto(String id) throws Exception {
-        return converter.categoriaProductoToDto(categoriaProductoRepositorio.findById(id)
-                .orElseThrow(() -> new Exception("No se encontro Categoria de Producto con id:" + id)));
+    public CategoriaProductoDto getCategoriaProducto(String id) {
+        Optional<CategoriaProducto> opt = categoriaProductoRepositorio.findById(id);
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.CATEGORIA_PRODUCTO_NO_EXISTE);
+        }
+        return converter.categoriaProductoToDto(opt.get());
     }
 
     /**

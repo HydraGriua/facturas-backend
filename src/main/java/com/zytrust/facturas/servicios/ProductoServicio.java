@@ -46,18 +46,14 @@ public interface ProductoServicio {
      *
      * @param id Identificador de producto
      * @return Retorna un objeto de tipo ProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del producto
      */
-    ProductoDto getProducto(String id) throws Exception;
+    ProductoDto getProducto(String id);
 
     /**
      * Permite crear un nuevo producto
      *
      * @param producto Dto de creacion para producto
      * @return Retorna un objeto de tipo ProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la categoria de producto
      */
-    ProductoDto createProducto(CreateProductoDto producto) throws Exception;
+    ProductoDto createProducto(CreateProductoDto producto);
 }

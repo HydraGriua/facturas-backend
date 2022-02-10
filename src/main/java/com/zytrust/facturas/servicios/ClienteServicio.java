@@ -36,10 +36,8 @@ public interface ClienteServicio {
      *
      * @param id Identificador de cliente
      * @return Retorna un objeto de tipo ClienteDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del cliente
      */
-    ClienteDto getCliente(String id) throws Exception;
+    ClienteDto getCliente(String id);
 
     /**
      * Permite crear un nuevo cliente

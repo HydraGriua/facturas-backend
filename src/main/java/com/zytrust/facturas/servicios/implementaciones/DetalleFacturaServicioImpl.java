@@ -12,11 +12,13 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.zytrust.facturas.dtos.detalle.CreateDetalleFacturaDto;
+import com.zytrust.facturas.dtos.detalle.CreateDetalleSimpleDto;
 import com.zytrust.facturas.dtos.detalle.DetalleFacturaDto;
+import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.DetalleFactura;
 import com.zytrust.facturas.modelos.Factura;
 import com.zytrust.facturas.modelos.Producto;
@@ -24,6 +26,7 @@ import com.zytrust.facturas.repositorios.DetalleFacturaRepositorio;
 import com.zytrust.facturas.repositorios.FacturaRepositorio;
 import com.zytrust.facturas.repositorios.ProductoRepositorio;
 import com.zytrust.facturas.servicios.DetalleFacturaServicio;
+import com.zytrust.facturas.utiles.CodigoError;
 import com.zytrust.facturas.utiles.ConvertidorDto;
 
 /**
@@ -79,9 +82,9 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<DetalleFacturaDto> getAllByFacturaId(String facturaId) throws Exception {
+    public List<DetalleFacturaDto> getAllByFacturaId(String facturaId) {
         if (!facturaRepositorio.existsById(facturaId)) {
-            throw new Exception("No se encontro Factura con id:" + facturaId);
+            throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
         }
         return converter.detalleFacturaToDto(detalleFacturaRepositorio
                 .findAllByFacturaFacturaId(facturaId));
@@ -95,17 +98,16 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
      * @param facturaId  Identificador de factura
      * @param productoId Identificador de producto
      * @return Retorna un objeto de tipo DetalleFacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
-     *                   o error en la obtencion del producto
      */
     @Override
     @Transactional(readOnly = true)
-    public DetalleFacturaDto getDetalleFactura(String facturaId, String productoId) throws Exception {
-        return converter.detalleFacturaToDto(detalleFacturaRepositorio
-                .findDetalleFactura(facturaId, productoId)
-                .orElseThrow(() -> new Exception("No se encontro Detalle de Factura con Factura Id:"
-                        + facturaId + "y Producto Id:" + productoId)));
+    public DetalleFacturaDto getDetalleFactura(String facturaId, String productoId) {
+        Optional<DetalleFactura> opt = detalleFacturaRepositorio
+                .findDetalleFactura(facturaId, productoId);
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.DETALLE_FACTURA_NO_EXISTE);
+        }
+        return converter.detalleFacturaToDto(opt.get());
     }
 
     /**
@@ -113,36 +115,34 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
      *
      * @param detalle Dto de creacion para detalle
      * @return Retorna un objeto de tipo DetalleFacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
-     *                   o error en la obtencion del producto
      */
     @Override
     @Transactional
-    public DetalleFacturaDto createDetalleFactura(CreateDetalleFacturaDto detalle) throws Exception {
-        Factura factura = facturaRepositorio.findById(detalle.getFacturaId())
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:"
-                        + detalle.getFacturaId()));
+    public BigDecimal createDetalleFactura(Factura factura, CreateDetalleSimpleDto[] detalles) {
 
-        Producto producto = productoRepositorio.findById(detalle.getProductoId())
-                .orElseThrow(() -> new Exception("No se encontro Producto con id:"
-                        + detalle.getProductoId()));
+        BigDecimal subtotal = new BigDecimal("0.00");
+        for (CreateDetalleSimpleDto detalle : detalles) {
 
-        DetalleFactura detalleFactura = DetalleFactura.builder()
-                .factura(factura)
-                .producto(producto)
-                .cantidad(detalle.getCantidad())
-                .importe(producto.getPrecioUnitario().multiply(detalle.getCantidad()))
-                .build();
+            Optional<Producto> opt = productoRepositorio.findById(detalle.getProductoId());
 
-        /* TODO: Mejorar la logica o confirmar */
-        DetalleFactura detalleFacturaBD = detalleFacturaRepositorio.save(detalleFactura);
-        factura.setSubtotal(factura.getSubtotal().add(detalleFacturaBD.getImporte()));
-        factura.setImpuesto(factura.getSubtotal().multiply(new BigDecimal("0.18")));
-        factura.setTotal(factura.getSubtotal().add(factura.getImpuesto()));
+            if (opt.isEmpty()) {
+                throw new FacturasException(CodigoError.PRODUCTO_NO_EXISTE);
+            }
 
-        facturaRepositorio.save(factura);
+            Producto producto = opt.get();
 
-        return converter.detalleFacturaToDto(detalleFacturaBD);
+            DetalleFactura detalleFactura = DetalleFactura.builder()
+                    .factura(factura)
+                    .producto(producto)
+                    .facturaId(factura.getFacturaId())
+                    .productoId(producto.getProductoId())
+                    .cantidad(detalle.getCantidad())
+                    .importe(producto.getPrecioUnitario().multiply(detalle.getCantidad()))
+                    .build();
+
+            detalleFacturaRepositorio.save(detalleFactura);
+            subtotal = subtotal.add(detalleFactura.getImporte()).stripTrailingZeros();
+        }
+        return subtotal;
     }
 }

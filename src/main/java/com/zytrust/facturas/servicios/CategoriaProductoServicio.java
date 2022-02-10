@@ -38,10 +38,8 @@ public interface CategoriaProductoServicio {
      *
      * @param id Identificador de categoria de producto a buscar
      * @return Retorna un objeto de tipo CategoriaProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la categoria
      */
-    CategoriaProductoDto getCategoriaProducto(String id) throws Exception;
+    CategoriaProductoDto getCategoriaProducto(String id);
 
     /**
      * Permite crear una nueva categoria de producto

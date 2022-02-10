@@ -10,9 +10,12 @@
 
 package com.zytrust.facturas.dtos.producto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Esta clase representa a un dto de producto y debe ser usada para almacenar
@@ -22,9 +25,14 @@ import lombok.Setter;
  * @version 1, 07/02/2022
  */
 
-@Getter
-@Setter
-public class ProductoDto {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class ProductoDto implements Serializable{
+
+    /** Id de serializacion */
+    private static final long serialVersionUID = 1L;
 
     /** Identificador de producto */
     private String productoId;

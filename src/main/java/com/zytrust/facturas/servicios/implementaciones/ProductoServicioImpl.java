@@ -11,16 +11,20 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.zytrust.facturas.dtos.producto.CreateProductoDto;
 import com.zytrust.facturas.dtos.producto.ProductoDto;
+import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.CategoriaProducto;
 import com.zytrust.facturas.modelos.Producto;
 import com.zytrust.facturas.repositorios.CategoriaProductoRepositorio;
 import com.zytrust.facturas.repositorios.ProductoRepositorio;
 import com.zytrust.facturas.servicios.ProductoServicio;
+import com.zytrust.facturas.utiles.CodigoError;
 import com.zytrust.facturas.utiles.ConvertidorDto;
 
 /**
@@ -79,14 +83,18 @@ public class ProductoServicioImpl implements ProductoServicio {
      *
      * @param id Identificador de producto
      * @return Retorna un objeto de tipo ProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del producto
      */
     @Override
     @Transactional(readOnly = true)
-    public ProductoDto getProducto(String id) throws Exception {
-        return converter.productoToDto(productoRepositorio.findById(id)
-                .orElseThrow(() -> new Exception("No se encontro Producto con id:" + id)));
+    public ProductoDto getProducto(String id) {
+
+        Optional<Producto> opt = productoRepositorio.findById(id);
+
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.PRODUCTO_NO_EXISTE);
+        }
+
+        return converter.productoToDto(opt.get());
     }
 
     /**
@@ -99,16 +107,20 @@ public class ProductoServicioImpl implements ProductoServicio {
      */
     @Override
     @Transactional
-    public ProductoDto createProducto(CreateProductoDto producto) throws Exception {
-        CategoriaProducto categoria = categoriaProductoRepositorio
-                .findById(producto.getCategoriaId()).orElseThrow(() -> new Exception(
-                        "No se encontro Categoria de Producto con id:" + producto.getCategoriaId()));
+    public ProductoDto createProducto(CreateProductoDto producto) {
+
+        Optional<CategoriaProducto> categoria = categoriaProductoRepositorio
+        .findById(producto.getCategoriaId());
+
+        if (categoria.isEmpty()) {
+            throw new FacturasException(CodigoError.CATEGORIA_PRODUCTO_NO_EXISTE);
+        }
 
         Producto productoEntidad = Producto.builder()
                 .nombre(producto.getNombre())
                 .descripcion(producto.getDescripcion())
                 .precioUnitario(producto.getPrecioUnitario())
-                .categoria(categoria)
+                .categoria(categoria.get())
                 .build();
 
         return converter.productoToDto(productoRepositorio.save(productoEntidad));

@@ -10,10 +10,13 @@
 
 package com.zytrust.facturas.dtos.Factura;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Esta clase representa a un dto de creacion de factura y debe ser usada para almacenar
@@ -23,9 +26,14 @@ import lombok.Setter;
  * @version 1, 07/02/2022
  */
 
-@Getter
-@Setter
-public class CreateFacturaDto {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class CreateFacturaDto implements Serializable{
+
+    /** Id de serializacion */
+    private static final long serialVersionUID = 1L;
 
     /** Direccion de emision de factura */
     @NotEmpty

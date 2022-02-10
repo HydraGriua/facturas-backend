@@ -11,10 +11,14 @@
 
 package com.zytrust.facturas.dtos.Factura;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import com.zytrust.facturas.dtos.detalle.CreateDetalleSimpleDto;
 
 /**
@@ -25,9 +29,15 @@ import com.zytrust.facturas.dtos.detalle.CreateDetalleSimpleDto;
  * @version 1, 08/02/2022
  */
 
-@Getter
-@Setter
-public class FacturaCompletaDto {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class FacturaCompletaDto implements Serializable{
+
+    /** Id de serializacion */
+    private static final long serialVersionUID = 1L;
+
     /** Direccion de emision de factura */
     @NotEmpty
     @Size(min = 4, message = "Debe contener al menos 4 caracteres")

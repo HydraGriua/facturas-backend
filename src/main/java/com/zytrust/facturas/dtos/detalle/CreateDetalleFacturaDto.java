@@ -10,11 +10,14 @@
 
 package com.zytrust.facturas.dtos.detalle;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Esta clase representa a un dto de creacion de detalle de factura y debe ser usada para almacenar
@@ -24,9 +27,14 @@ import lombok.Setter;
  * @version 1, 07/02/2022
  */
 
-@Getter
-@Setter
-public class CreateDetalleFacturaDto {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class CreateDetalleFacturaDto implements Serializable{
+
+    /** Id de serializacion */
+    private static final long serialVersionUID = 1L;
 
     /** cantidad de producto  en el detalle de factura*/
     private BigDecimal cantidad;

@@ -10,9 +10,9 @@
 
 package com.zytrust.facturas.dtos;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
+import lombok.ToString;
 
 /**
  * Esta clase representa a un objeto response para el API y debe ser usada para almacenar
@@ -23,7 +23,11 @@ import java.io.Serializable;
  */
 
 @Data
+@ToString
 public class ApiResponse<T> implements Serializable {
+
+    /** Id de serializacion */
+    private static final long serialVersionUID = 1L;
 
     /** Descripcion de estado del response */
     private String status;

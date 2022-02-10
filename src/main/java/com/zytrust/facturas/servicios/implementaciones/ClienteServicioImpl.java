@@ -11,14 +11,18 @@
 package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.zytrust.facturas.dtos.cliente.ClienteDto;
 import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
+import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.Cliente;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
 import com.zytrust.facturas.servicios.ClienteServicio;
+import com.zytrust.facturas.utiles.CodigoError;
 import com.zytrust.facturas.utiles.ConvertidorDto;
 
 /**
@@ -59,14 +63,15 @@ public class ClienteServicioImpl implements ClienteServicio {
      *
      * @param id Identificador de cliente
      * @return Retorna un objeto de tipo ClienteDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del cliente
      */
     @Override
     @Transactional(readOnly = true)
-    public ClienteDto getCliente(String id) throws Exception {
-        return converter.clienteToDto(clienteRepositorio.findById(id)
-                .orElseThrow(() -> new Exception("No se encontro Cliente con id:" + id)));
+    public ClienteDto getCliente(String id) {
+        Optional<Cliente> opt = clienteRepositorio.findById(id);
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.CLIENTE_NO_EXISTE);
+        }
+        return converter.clienteToDto(opt.get());
     }
 
     /**

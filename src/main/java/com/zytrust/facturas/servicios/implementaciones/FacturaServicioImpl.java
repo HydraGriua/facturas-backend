@@ -15,22 +15,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaCompletaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaDto;
-import com.zytrust.facturas.dtos.detalle.CreateDetalleSimpleDto;
+import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.Cliente;
-import com.zytrust.facturas.modelos.DetalleFactura;
 import com.zytrust.facturas.modelos.Factura;
-import com.zytrust.facturas.modelos.Producto;
 import com.zytrust.facturas.repositorios.ClienteRepositorio;
-import com.zytrust.facturas.repositorios.DetalleFacturaRepositorio;
 import com.zytrust.facturas.repositorios.FacturaRepositorio;
-import com.zytrust.facturas.repositorios.ProductoRepositorio;
+import com.zytrust.facturas.servicios.DetalleFacturaServicio;
 import com.zytrust.facturas.servicios.FacturaServicio;
+import com.zytrust.facturas.utiles.CodigoError;
 import com.zytrust.facturas.utiles.ConvertidorDto;
 
 /**
@@ -55,13 +54,8 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Autowired
     ClienteRepositorio clienteRepositorio;
 
-    /** Repositorio de detalle de factura con inyeccion de dependencia */
     @Autowired
-    DetalleFacturaRepositorio detalleFacturaRepositorio;
-
-    /** Repositorio de producto con inyeccion de dependencia */
-    @Autowired
-    ProductoRepositorio productoRepositorio;
+    DetalleFacturaServicio detalleFacturaServicio;
 
     /** convertidor de entidades a Dto con inyeccion de dependencia */
     @Autowired
@@ -95,14 +89,16 @@ public class FacturaServicioImpl implements FacturaServicio {
      *
      * @param id Identificador de factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
     @Override
     @Transactional(readOnly = true)
-    public FacturaDto getFactura(String id) throws Exception {
-        return converter.facturaToDto(facturaRepositorio.findById(id)
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:" + id)));
+    public FacturaDto getFactura(String id) {
+
+        Optional<Factura> opt = facturaRepositorio.findById(id);
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
+        }
+        return converter.facturaToDto(opt.get());
     }
 
     /**
@@ -110,25 +106,20 @@ public class FacturaServicioImpl implements FacturaServicio {
      *
      * @param factura Dto de creacion para factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del cliente
      */
     @Override
     @Transactional
-    public FacturaDto createFactura(CreateFacturaDto factura) throws Exception {
+    public FacturaDto createFactura(CreateFacturaDto factura) {
 
-        Cliente cliente = clienteRepositorio.findById(factura.getClienteId())
-                .orElseThrow(() -> new Exception("No se encontro Cliente con id:"
-                        + factura.getClienteId()));
-
-        LocalDate hoy = LocalDate.now();
-        LocalTime ahora = LocalTime.now();
-        LocalDateTime fecha = LocalDateTime.of(hoy, ahora);
+        Optional<Cliente> cliente = clienteRepositorio.findById(factura.getClienteId());
+        if (cliente.isEmpty()) {
+            throw new FacturasException(CodigoError.CLIENTE_NO_EXISTE);
+        }
 
         Factura facturaEntidad = Factura.builder()
-                .cliente(cliente)
+                .cliente(cliente.get())
                 .direccion(factura.getDireccion())
-                .fechaHoraEmision(fecha)
+                .fechaHoraEmision(LocalDateTime.of(LocalDate.now(), LocalTime.now()))
                 .estado('i')
                 .subtotal(new BigDecimal("0"))
                 .impuesto(new BigDecimal("0"))
@@ -143,26 +134,21 @@ public class FacturaServicioImpl implements FacturaServicio {
      *
      * @param factura Dto completo de creacion para factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion del cliente u producto
-     * @version 1.1, 08/02/2022
      */
     @Override
     @Transactional
-    public FacturaDto createFacturaCompleta(FacturaCompletaDto factura) throws Exception {
+    public FacturaDto createFacturaCompleta(FacturaCompletaDto factura) {
 
-        Cliente cliente = clienteRepositorio.findById(factura.getClienteId())
-                .orElseThrow(() -> new Exception("No se encontro Cliente con id:"
-                        + factura.getClienteId()));
+        Optional<Cliente> cliente = clienteRepositorio.findById(factura.getClienteId());
 
-        LocalDate hoy = LocalDate.now();
-        LocalTime ahora = LocalTime.now();
-        LocalDateTime fecha = LocalDateTime.of(hoy, ahora);
+        if (cliente.isEmpty()) {
+            throw new FacturasException(CodigoError.CLIENTE_NO_EXISTE);
+        }
 
         Factura facturaEntidad = Factura.builder()
-                .cliente(cliente)
+                .cliente(cliente.get())
                 .direccion(factura.getDireccion())
-                .fechaHoraEmision(fecha)
+                .fechaHoraEmision(LocalDateTime.of(LocalDate.now(), LocalTime.now()))
                 .estado('i')
                 .subtotal(new BigDecimal("0"))
                 .impuesto(new BigDecimal("0"))
@@ -170,27 +156,9 @@ public class FacturaServicioImpl implements FacturaServicio {
                 .build();
 
         facturaEntidad = facturaRepositorio.save(facturaEntidad);
-        BigDecimal subtotal = new BigDecimal("0.00");
 
-        for (CreateDetalleSimpleDto detalle : factura.getDetalles()) {
+        BigDecimal subtotal = detalleFacturaServicio.createDetalleFactura(facturaEntidad, factura.getDetalles());
 
-            Producto producto = productoRepositorio.findById(detalle.getProductoId())
-                    .orElseThrow(() -> new Exception("No se encontro Producto con id:"
-                            + detalle.getProductoId()));
-
-            DetalleFactura detalleFactura = DetalleFactura.builder()
-                    .factura(facturaEntidad)
-                    .producto(producto)
-                    .facturaId(facturaEntidad.getFacturaId())
-                    .productoId(producto.getProductoId())
-                    .cantidad(detalle.getCantidad())
-                    .importe(producto.getPrecioUnitario().multiply(detalle.getCantidad()))
-                    .build();
-
-            detalleFactura = detalleFacturaRepositorio.save(detalleFactura);
-            subtotal = subtotal.add(detalleFactura.getImporte()).stripTrailingZeros();
-
-        }
         facturaEntidad.setSubtotal(facturaEntidad.getSubtotal()
         .add(subtotal));
 
@@ -209,15 +177,16 @@ public class FacturaServicioImpl implements FacturaServicio {
      * @param estado    Caracter que representa el nuevo estado
      * @param facturaId Identificador de factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
     @Override
-    public FacturaDto updateEstadoFactura(Character estado, String facturaId) throws Exception {
-        Factura factura = facturaRepositorio.findById(facturaId)
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:"
-                        + facturaId));
+    @Transactional
+    public FacturaDto updateEstadoFactura(Character estado, String facturaId) {
 
+        Optional<Factura> opt = facturaRepositorio.findById(facturaId);
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
+        }
+        Factura factura = opt.get();
         factura.setEstado(estado);
 
         return converter.facturaToDto(facturaRepositorio.save(factura));
@@ -229,22 +198,20 @@ public class FacturaServicioImpl implements FacturaServicio {
      * @param tipoPago  String que representa el tipo de pago a usar
      * @param facturaId Identificador de factura
      * @return Retorna un objeto de tipo FacturaDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
     @Override
-    public FacturaDto pagoFactura(String tipoPago, String facturaId) throws Exception {
-        Factura factura = facturaRepositorio.findById(facturaId)
-                .orElseThrow(() -> new Exception("No se encontro Factura con id:"
-                        + facturaId));
+    public FacturaDto pagoFactura(String tipoPago, String facturaId) {
 
+        Optional<Factura> opt = facturaRepositorio.findById(facturaId);
+
+        if (opt.isEmpty()) {
+            throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
+        }
+
+        Factura factura = opt.get();
         factura.setEstado('c');
         factura.setTipoPago(tipoPago);
-
-        LocalDate hoy = LocalDate.now();
-        LocalTime ahora = LocalTime.now();
-        LocalDateTime fecha = LocalDateTime.of(hoy, ahora);
-        factura.setFechaHoraPago(fecha);
+        factura.setFechaHoraPago(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
 
         return converter.facturaToDto(facturaRepositorio.save(factura));
     }
