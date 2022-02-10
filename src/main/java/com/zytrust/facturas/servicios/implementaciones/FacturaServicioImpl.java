@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,8 +56,12 @@ public class FacturaServicioImpl implements FacturaServicio {
     @Autowired
     ClienteRepositorio clienteRepositorio;
 
+    /** Repositorio de cliente con inyeccion de dependencia */
     @Autowired
     DetalleFacturaServicio detalleFacturaServicio;
+
+    /** Logger de servicio */
+    private static final Logger logger = LoggerFactory.getLogger(FacturaServicioImpl.class);
 
     /** convertidor de entidades a Dto con inyeccion de dependencia */
     @Autowired
@@ -96,6 +102,7 @@ public class FacturaServicioImpl implements FacturaServicio {
 
         Optional<Factura> opt = facturaRepositorio.findById(id);
         if (opt.isEmpty()) {
+            logger.info("No se encontro la factura con el id {}", id);
             throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
         }
         return converter.facturaToDto(opt.get());
@@ -112,7 +119,9 @@ public class FacturaServicioImpl implements FacturaServicio {
     public FacturaDto createFactura(CreateFacturaDto factura) {
 
         Optional<Cliente> cliente = clienteRepositorio.findById(factura.getClienteId());
+
         if (cliente.isEmpty()) {
+            logger.info("No se encontro el cliente con el id {}", factura.getClienteId());
             throw new FacturasException(CodigoError.CLIENTE_NO_EXISTE);
         }
 
@@ -126,7 +135,10 @@ public class FacturaServicioImpl implements FacturaServicio {
                 .total(new BigDecimal("0"))
                 .build();
 
-        return converter.facturaToDto(facturaRepositorio.save(facturaEntidad));
+        facturaEntidad = facturaRepositorio.save(facturaEntidad);
+        logger.debug("Se creo la factura {}", facturaEntidad.toString());
+
+        return converter.facturaToDto(facturaEntidad);
     }
 
     /**
@@ -142,6 +154,7 @@ public class FacturaServicioImpl implements FacturaServicio {
         Optional<Cliente> cliente = clienteRepositorio.findById(factura.getClienteId());
 
         if (cliente.isEmpty()) {
+            logger.info("No se encontro el cliente con el id {}", factura.getClienteId());
             throw new FacturasException(CodigoError.CLIENTE_NO_EXISTE);
         }
 
@@ -156,19 +169,24 @@ public class FacturaServicioImpl implements FacturaServicio {
                 .build();
 
         facturaEntidad = facturaRepositorio.save(facturaEntidad);
+        logger.debug("Se creo la factura {}", facturaEntidad.toString());
 
-        BigDecimal subtotal = detalleFacturaServicio.createDetalleFactura(facturaEntidad, factura.getDetalles());
+        BigDecimal subtotal = detalleFacturaServicio.
+        createDetalleFactura(facturaEntidad, factura.getDetalles());
 
         facturaEntidad.setSubtotal(facturaEntidad.getSubtotal()
-        .add(subtotal));
+                .add(subtotal));
 
         facturaEntidad.setImpuesto(facturaEntidad.getSubtotal()
-        .multiply(new BigDecimal("0.18")));
+                .multiply(new BigDecimal("0.18")));
 
         facturaEntidad.setTotal(facturaEntidad.getSubtotal()
-        .add(facturaEntidad.getImpuesto()));
+                .add(facturaEntidad.getImpuesto()));
 
-        return converter.facturaToDto(facturaRepositorio.save(facturaEntidad));
+        facturaEntidad = facturaRepositorio.save(facturaEntidad);
+        logger.debug("Se actualizo la factura {}", facturaEntidad.toString());
+
+        return converter.facturaToDto(facturaEntidad);
     }
 
     /**
@@ -184,12 +202,16 @@ public class FacturaServicioImpl implements FacturaServicio {
 
         Optional<Factura> opt = facturaRepositorio.findById(facturaId);
         if (opt.isEmpty()) {
+            logger.info("No se encontro la factura con el id {}", facturaId);
             throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
         }
         Factura factura = opt.get();
         factura.setEstado(estado);
 
-        return converter.facturaToDto(facturaRepositorio.save(factura));
+        factura = facturaRepositorio.save(factura);
+        logger.debug("Se creo la factura {}", factura.toString());
+
+        return converter.facturaToDto(factura);
     }
 
     /**
@@ -205,6 +227,7 @@ public class FacturaServicioImpl implements FacturaServicio {
         Optional<Factura> opt = facturaRepositorio.findById(facturaId);
 
         if (opt.isEmpty()) {
+            logger.info("No se encontro la factura con el id {}", facturaId);
             throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
         }
 
@@ -213,7 +236,10 @@ public class FacturaServicioImpl implements FacturaServicio {
         factura.setTipoPago(tipoPago);
         factura.setFechaHoraPago(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
 
-        return converter.facturaToDto(facturaRepositorio.save(factura));
+        factura = facturaRepositorio.save(factura);
+        logger.debug("Se creo la factura {}", factura.toString());
+
+        return converter.facturaToDto(factura);
     }
 
 }

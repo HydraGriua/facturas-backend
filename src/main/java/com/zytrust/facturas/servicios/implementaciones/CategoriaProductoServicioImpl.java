@@ -12,7 +12,8 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zytrust.facturas.dtos.categoria.CategoriaProductoDto;
@@ -46,6 +47,9 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
     @Autowired
     private ConvertidorDto converter;
 
+    /** Logger de servicio */
+    private static final Logger logger = LoggerFactory.getLogger(CategoriaProductoServicioImpl.class);
+
     /**
      * Permite obtener todas las categorias de producto y mapearlas a una lista de
      * Dto
@@ -67,6 +71,7 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
     public CategoriaProductoDto getCategoriaProducto(String id) {
         Optional<CategoriaProducto> opt = categoriaProductoRepositorio.findById(id);
         if (opt.isEmpty()) {
+            logger.info("No se encontro la categoria de producto con el id {}", id);
             throw new FacturasException(CodigoError.CATEGORIA_PRODUCTO_NO_EXISTE);
         }
         return converter.categoriaProductoToDto(opt.get());
@@ -84,6 +89,10 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
                 .nombre(categoria.getNombre())
                 .descripcion(categoria.getDescripcion())
                 .build();
-        return converter.categoriaProductoToDto(categoriaProductoRepositorio.save(categoriaProducto));
+
+        categoriaProducto = categoriaProductoRepositorio.save(categoriaProducto);
+        logger.debug("Se creo la categoria {}", categoriaProducto.toString());
+
+        return converter.categoriaProductoToDto(categoriaProducto);
     }
 }

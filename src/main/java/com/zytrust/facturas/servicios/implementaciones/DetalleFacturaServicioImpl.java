@@ -13,6 +13,9 @@ package com.zytrust.facturas.servicios.implementaciones;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +62,9 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     @Autowired
     private ConvertidorDto converter;
 
+    /** Logger de servicio */
+    private static final Logger logger = LoggerFactory.getLogger(DetalleFacturaServicioImpl.class);
+
     /**
      * Permite obtener todos los detalles de facturas y mapearlos a una lista de Dto
      *
@@ -84,6 +90,7 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     @Transactional(readOnly = true)
     public List<DetalleFacturaDto> getAllByFacturaId(String facturaId) {
         if (!facturaRepositorio.existsById(facturaId)) {
+            logger.info("No se encontro la factura con el id {}", facturaId);
             throw new FacturasException(CodigoError.FACTURA_NO_EXISTE);
         }
         return converter.detalleFacturaToDto(detalleFacturaRepositorio
@@ -105,6 +112,7 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
         Optional<DetalleFactura> opt = detalleFacturaRepositorio
                 .findDetalleFactura(facturaId, productoId);
         if (opt.isEmpty()) {
+            logger.info("No se encontro el detalle de factura con el id de factura {} y el id de producto {}", facturaId, productoId);
             throw new FacturasException(CodigoError.DETALLE_FACTURA_NO_EXISTE);
         }
         return converter.detalleFacturaToDto(opt.get());
@@ -121,11 +129,13 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     public BigDecimal createDetalleFactura(Factura factura, CreateDetalleSimpleDto[] detalles) {
 
         BigDecimal subtotal = new BigDecimal("0.00");
+
         for (CreateDetalleSimpleDto detalle : detalles) {
 
             Optional<Producto> opt = productoRepositorio.findById(detalle.getProductoId());
 
             if (opt.isEmpty()) {
+                logger.info("No se encontro el producto con el id {}", detalle.getProductoId());
                 throw new FacturasException(CodigoError.PRODUCTO_NO_EXISTE);
             }
 
@@ -141,6 +151,7 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
                     .build();
 
             detalleFacturaRepositorio.save(detalleFactura);
+            logger.debug("Se creo el detalle {}", detalleFactura.toString());
             subtotal = subtotal.add(detalleFactura.getImporte()).stripTrailingZeros();
         }
         return subtotal;

@@ -12,7 +12,8 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,13 +46,16 @@ public class ProductoServicioImpl implements ProductoServicio {
     @Autowired
     ProductoRepositorio productoRepositorio;
 
-    /** Repositorio de categoria de producto con inyeccion de dependencia */
+    /** Repositorio de categoria de productos con inyeccion de dependencia */
     @Autowired
     CategoriaProductoRepositorio categoriaProductoRepositorio;
 
     /** convertidor de entidades a Dto con inyeccion de dependencia */
     @Autowired
     private ConvertidorDto converter;
+
+    /** Logger de servicio */
+    private static final Logger logger = LoggerFactory.getLogger(ProductoServicioImpl.class);
 
     /**
      * Permite obtener todos los productos y mapearlos a una lista de Dto
@@ -91,6 +95,7 @@ public class ProductoServicioImpl implements ProductoServicio {
         Optional<Producto> opt = productoRepositorio.findById(id);
 
         if (opt.isEmpty()) {
+            logger.info("No se encontro el producto con el id {}", id);
             throw new FacturasException(CodigoError.PRODUCTO_NO_EXISTE);
         }
 
@@ -113,6 +118,7 @@ public class ProductoServicioImpl implements ProductoServicio {
         .findById(producto.getCategoriaId());
 
         if (categoria.isEmpty()) {
+            logger.info("No se encontro la categoria con el id {}", producto.getCategoriaId());
             throw new FacturasException(CodigoError.CATEGORIA_PRODUCTO_NO_EXISTE);
         }
 
@@ -123,6 +129,9 @@ public class ProductoServicioImpl implements ProductoServicio {
                 .categoria(categoria.get())
                 .build();
 
-        return converter.productoToDto(productoRepositorio.save(productoEntidad));
+        productoEntidad = productoRepositorio.save(productoEntidad);
+        logger.debug("Se creo el producto {}", productoEntidad.toString());
+
+        return converter.productoToDto(productoEntidad);
     }
 }

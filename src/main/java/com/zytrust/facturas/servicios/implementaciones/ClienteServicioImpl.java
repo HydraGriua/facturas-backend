@@ -12,7 +12,8 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,9 @@ public class ClienteServicioImpl implements ClienteServicio {
     @Autowired
     private ConvertidorDto converter;
 
+    /** Logger de servicio */
+    private static final Logger logger = LoggerFactory.getLogger(ClienteServicioImpl.class);
+
     /**
      * Permite obtener todos los clientes y mapearlos a una lista de Dto
      *
@@ -68,9 +72,12 @@ public class ClienteServicioImpl implements ClienteServicio {
     @Transactional(readOnly = true)
     public ClienteDto getCliente(String id) {
         Optional<Cliente> opt = clienteRepositorio.findById(id);
+
         if (opt.isEmpty()) {
+            logger.info("No se encontro el cliente con el id {}", id);
             throw new FacturasException(CodigoError.CLIENTE_NO_EXISTE);
         }
+
         return converter.clienteToDto(opt.get());
     }
 
@@ -96,6 +103,9 @@ public class ClienteServicioImpl implements ClienteServicio {
                 .nombreEmpresa(cliente.getNombreEmpresa())
                 .build();
 
-        return converter.clienteToDto(clienteRepositorio.save(clienteEntidad));
+        clienteEntidad = clienteRepositorio.save(clienteEntidad);
+        logger.debug("Se creo el cliente {}", clienteEntidad.toString());
+
+        return converter.clienteToDto(clienteEntidad);
     }
 }

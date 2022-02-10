@@ -13,7 +13,12 @@ package com.zytrust.facturas.modelos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Esta clase representa a un detalle de factura y debe ser usada para almacenar
