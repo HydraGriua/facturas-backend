@@ -13,12 +13,13 @@ package com.zytrust.facturas.modelos;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.ToString;
 
 /**
  * Esta clase representa a un cliente y debe ser usada para almacenar
@@ -30,6 +31,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Builder
 @AllArgsConstructor
@@ -86,5 +88,6 @@ public class Cliente {
 
     /** Facturas pertenecientes al cliente */
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Factura> facturas;
 }

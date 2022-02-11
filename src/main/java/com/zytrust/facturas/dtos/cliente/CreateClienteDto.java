@@ -43,17 +43,17 @@ public class CreateClienteDto implements Serializable{
 
     /** Tipo de documento de cliente */
     @NotEmpty
-    @Size(min = 4, message = "Debe contener al menos 4 caracteres")
+    @Size(min = 2, message = "Debe contener al menos 2 caracteres")
     private String tipoDocumento;
 
     /** Primer nombre de cliente */
     @NotEmpty
-    @Size(min = 4, message = "Debe contener al menos 4 caracteres")
+    @Size(min = 2, message = "Debe contener al menos 2 caracteres")
     private String primerNombre;
 
     /** Primer apellido de cliente */
     @NotEmpty
-    @Size(min = 4, message = "Debe contener al menos 4 caracteres")
+    @Size(min = 2, message = "Debe contener al menos 2 caracteres")
     private String primerApellido;
 
     /** Fecha de nacimiento de cliente */

@@ -17,6 +17,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -30,6 +32,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Builder
 @AllArgsConstructor
@@ -54,5 +57,6 @@ public class CategoriaProducto {
 
     /** Productos que pertenecen a la categoria */
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Producto> productos;
 }

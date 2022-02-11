@@ -19,6 +19,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Esta clase representa a un detalle de factura y debe ser usada para almacenar
@@ -30,6 +31,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Builder
 @AllArgsConstructor
@@ -49,11 +51,13 @@ public class DetalleFactura {
     /** Factura de pertenencia de detalle */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FACT_ID", nullable = false, insertable = false, updatable = false)
+    @ToString.Exclude
     private Factura factura;
 
     /** Producto en detalle de factura */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROD_ID", nullable = false, insertable = false, updatable = false)
+    @ToString.Exclude
     private Producto producto;
 
     /** Identificador de factura */
