@@ -12,6 +12,8 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,5 +96,10 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
         logger.debug("Se creo la categoria {}", categoriaProducto.toString());
 
         return converter.categoriaProductoToDto(categoriaProducto);
+    }
+
+    @Override
+    public List<CategoriaProductoDTO> findAllCategoriaProductoDTO() {
+        return categoriaProductoRepositorio.findAllCategoriaProductoDTO();
     }
 }

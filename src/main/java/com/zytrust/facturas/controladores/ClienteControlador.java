@@ -12,6 +12,8 @@ package com.zytrust.facturas.controladores;
 
 import java.util.List;
 import javax.validation.Valid;
+
+import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,19 @@ public class ClienteControlador {
     public ApiResponse<List<ClienteDto>> getAllClientes() {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 clienteServicio.getAll());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/DTO")
+    public ApiResponse<List<ClienteDTO>> getAllClientesDTO() {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                clienteServicio.findAllClienteDTO());
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/DTO/{clienteId}")
+    public ApiResponse<ClienteDTO> getClienteDTO(@PathVariable("clienteId") String clienteId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                clienteServicio.findClienteDTO(clienteId));
     }
 
     /**

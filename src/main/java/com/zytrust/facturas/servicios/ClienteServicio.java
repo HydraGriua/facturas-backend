@@ -13,6 +13,7 @@ package com.zytrust.facturas.servicios;
 import java.util.List;
 import com.zytrust.facturas.dtos.cliente.ClienteDto;
 import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
+import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 
 /**
  * Esta interfaz representa a un servicio para cliente y debe ser usada para ser
@@ -46,4 +47,8 @@ public interface ClienteServicio {
      * @return Retorna un objeto de tipo ClienteDto
      */
     ClienteDto createCliente(CreateClienteDto cliente);
+
+    List<ClienteDTO> findAllClienteDTO();
+
+    ClienteDTO findClienteDTO(String clienteId);
 }

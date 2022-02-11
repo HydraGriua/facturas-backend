@@ -12,6 +12,8 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,5 +109,15 @@ public class ClienteServicioImpl implements ClienteServicio {
         logger.debug("Se creo el cliente {}", clienteEntidad.toString());
 
         return converter.clienteToDto(clienteEntidad);
+    }
+
+    @Override
+    public List<ClienteDTO> findAllClienteDTO() {
+        return clienteRepositorio.findAllClienteDTO();
+    }
+
+    @Override
+    public ClienteDTO findClienteDTO(String clienteId) {
+        return clienteRepositorio.findClienteDTO(clienteId);
     }
 }

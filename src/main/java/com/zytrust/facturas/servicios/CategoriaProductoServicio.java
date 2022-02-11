@@ -13,6 +13,7 @@ package com.zytrust.facturas.servicios;
 import java.util.List;
 import com.zytrust.facturas.dtos.categoria.CategoriaProductoDto;
 import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
+import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 
 /**
  * Esta interfaz representa a un servicio para producto y debe ser usada para
@@ -48,4 +49,6 @@ public interface CategoriaProductoServicio {
      * @return Retorna un Objeto de tipo CategoriaProductoDto
      */
     CategoriaProductoDto createCategoriaProducto(CreateCategoriaProductoDto categoria);
+
+    List<CategoriaProductoDTO> findAllCategoriaProductoDTO();
 }

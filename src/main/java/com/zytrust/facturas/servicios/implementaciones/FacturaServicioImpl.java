@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+
+import com.zytrust.facturas.modelos.DTOS.FacturaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -240,6 +242,12 @@ public class FacturaServicioImpl implements FacturaServicio {
         logger.debug("Se creo la factura {}", factura.toString());
 
         return converter.facturaToDto(factura);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FacturaDTO> findAllFacturaDTO() {
+        return facturaRepositorio.findAllFacturaDTO();
     }
 
 }

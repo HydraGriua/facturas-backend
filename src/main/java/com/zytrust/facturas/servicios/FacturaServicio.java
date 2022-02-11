@@ -14,6 +14,7 @@ import java.util.List;
 import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaCompletaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaDto;
+import com.zytrust.facturas.modelos.DTOS.FacturaDTO;
 
 /**
  * Esta interfaz representa a un servicio para factura y debe ser usada para ser
@@ -80,4 +81,6 @@ public interface FacturaServicio {
      * @return Retorna un objeto de tipo FacturaDto
      */
     FacturaDto pagoFactura(String tipoPago, String facturaId);
+
+    List<FacturaDTO> findAllFacturaDTO();
 }

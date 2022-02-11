@@ -141,14 +141,14 @@ public class ConvertidorDto {
      * @return Objeto de tipo DetalleFacturaDto
      */
     public DetalleFacturaDto detalleFacturaToDto(DetalleFactura detalleFactura) {
-        TypeMap<DetalleFactura, DetalleFacturaDto> propertyMapper = modelMapper
-                .createTypeMap(DetalleFactura.class,
-                        DetalleFacturaDto.class);
-        propertyMapper
-                .addMappings(mapper -> mapper
-                        .map(src -> src.getFactura().getFacturaId(), DetalleFacturaDto::setFacturaId))
-                .addMappings(mapper -> mapper
-                        .map(src -> src.getProducto().getProductoId(), DetalleFacturaDto::setProductoId));
+//        TypeMap<DetalleFactura, DetalleFacturaDto> propertyMapper = modelMapper
+//                .createTypeMap(DetalleFactura.class,
+//                        DetalleFacturaDto.class);
+//        propertyMapper
+//                .addMappings(mapper -> mapper
+//                        .map(src -> src.getFactura().getFacturaId(), DetalleFacturaDto::setFacturaId))
+//                .addMappings(mapper -> mapper
+//                        .map(src -> src.getProducto().getProductoId(), DetalleFacturaDto::setProductoId));
         return modelMapper.map(detalleFactura, DetalleFacturaDto.class);
     }
 
