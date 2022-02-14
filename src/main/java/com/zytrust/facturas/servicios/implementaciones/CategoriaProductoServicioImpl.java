@@ -105,4 +105,17 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
     public List<CategoriaProductoDTO> findAllCategoriaProductoDTO() {
         return categoriaProductoRepositorio.findAllCategoriaProductoDTO();
     }
+
+    /**
+     * Permite obtener una categoria de producto segun el identificador en formato DTO
+     *
+     * @param categoriaId Identificador de categoria de producto
+     * @return Retorna un objeto de tipo CategoriaProductoDTO
+     */
+    @Override
+    public CategoriaProductoDTO findCategoriaProductoDTO(String categoriaId) {
+        return categoriaProductoRepositorio.findCategoriaProductoDTO(categoriaId);
+    }
+
+
 }

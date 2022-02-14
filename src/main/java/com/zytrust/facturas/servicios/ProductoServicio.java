@@ -13,6 +13,7 @@ package com.zytrust.facturas.servicios;
 import java.util.List;
 import com.zytrust.facturas.dtos.producto.CreateProductoDto;
 import com.zytrust.facturas.dtos.producto.ProductoDto;
+import com.zytrust.facturas.modelos.DTOS.ProductoDTO;
 
 /**
  * Esta interfaz representa a un servicio para producto y debe ser usada para
@@ -56,4 +57,24 @@ public interface ProductoServicio {
      * @return Retorna un objeto de tipo ProductoDto
      */
     ProductoDto createProducto(CreateProductoDto producto);
+
+    /**
+     * Permite obtener todos los productos en formato DTO
+     * @return Retorna una lista dto de todos los productos
+     */
+    List<ProductoDTO> findAllProductoDTO();
+
+    /**
+     * Permite obtener todos los productos segun identificador de categoria en formato DTO
+     * @param categoriaId Identificador de categoria
+     * @return Retorna una lista dto de productos
+     */
+    List<ProductoDTO> findAllProductoDTOByCategoriaId(String categoriaId);
+
+    /**
+     * Permite obtener todos los productos segun identificador de producto en formato DTO
+     * @param productoId Identificador de producto
+     * @return Retorna dto de producto
+     */
+    ProductoDTO findProductoDTO(String productoId);
 }

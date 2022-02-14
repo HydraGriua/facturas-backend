@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import com.zytrust.facturas.modelos.DTOS.DetalleFacturaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +84,6 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
      *
      * @param facturaId Identificador de factura
      * @return Retorna una lista dto de todos los detalles de una factura
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la factura
      */
     @Override
     @Transactional(readOnly = true)
@@ -121,7 +120,8 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
     /**
      * Permite crear un nuevo detalle de factura
      *
-     * @param detalle Dto de creacion para detalle
+     * @param factura Objeto factura que se asignara al detalla
+     * @param detalles Lista dto simple de detalles a procesar
      * @return Retorna un objeto de tipo DetalleFacturaDto
      */
     @Override
@@ -155,5 +155,17 @@ public class DetalleFacturaServicioImpl implements DetalleFacturaServicio {
             subtotal = subtotal.add(detalleFactura.getImporte()).stripTrailingZeros();
         }
         return subtotal;
+    }
+
+    /**
+     * Permite obtener una lista dto de todos los detalles de facturas segun el
+     * identificador de factura
+     *
+     * @param facturaId Identificador de factura
+     * @return Retorna una lista dto de todos los detalles de una factura
+     */
+    @Override
+    public List<DetalleFacturaDTO> findAllDetalleFacturaDTOByFacturaId(String facturaId) {
+        return detalleFacturaRepositorio.findAllDetalleFacturaDTOByFacturaId(facturaId);
     }
 }

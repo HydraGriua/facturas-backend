@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import com.zytrust.facturas.dtos.detalle.CreateDetalleSimpleDto;
 import com.zytrust.facturas.dtos.detalle.DetalleFacturaDto;
+import com.zytrust.facturas.modelos.DTOS.DetalleFacturaDTO;
 import com.zytrust.facturas.modelos.Factura;
 
 /**
@@ -58,8 +59,18 @@ public interface DetalleFacturaServicio {
     /**
      * Permite crear un nuevo detalle de factura
      *
-     * @param detalle Dto de creacion para detalle
+     * @param factura Objeto factura que se asignara al detalla
+     * @param detalles Lista dto simple de detalles a procesar
      * @return Retorna un objeto de tipo DetalleFacturaDto
      */
     BigDecimal createDetalleFactura(Factura factura, CreateDetalleSimpleDto[] detalles);
+
+    /**
+     * Permite obtener una lista dto de todos los detalles de facturas segun el
+     * identificador de factura
+     *
+     * @param facturaId Identificador de factura
+     * @return Retorna una lista dto de todos los detalles de una factura
+     */
+    List<DetalleFacturaDTO> findAllDetalleFacturaDTOByFacturaId(String facturaId);
 }

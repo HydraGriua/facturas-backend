@@ -254,4 +254,28 @@ public class FacturaServicioImpl implements FacturaServicio {
         return facturaRepositorio.findAllFacturaDTO();
     }
 
+    /**
+     * Permite obtener una lista de todas las facturas segun identificador de
+     * cliente en formato DTO
+     *
+     * @param clienteId Identificador de cliente
+     * @return Retorna una lista dto de todas las facturas
+     */
+    @Override
+    public List<FacturaDTO> findAllFacturaDTOByClienteId(String clienteId) {
+        return facturaRepositorio.findAllFacturaDTOByClienteId(clienteId);
+    }
+
+    /**
+     * Permite obtener una lista de todas las facturas segun identificador de
+     * factura en formato DTO
+     *
+     * @param facturaId Identificador de factura
+     * @return Retorna un dto de factura
+     */
+    @Override
+    public FacturaDTO findFacturaDTO(String facturaId) {
+        return facturaRepositorio.findFacturaDTOByFacturaId(facturaId);
+    }
+
 }

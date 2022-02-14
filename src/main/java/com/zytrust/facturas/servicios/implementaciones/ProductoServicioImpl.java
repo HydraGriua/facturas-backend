@@ -12,6 +12,8 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.zytrust.facturas.modelos.DTOS.ProductoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,5 +135,37 @@ public class ProductoServicioImpl implements ProductoServicio {
         logger.debug("Se creo el producto {}", productoEntidad.toString());
 
         return converter.productoToDto(productoEntidad);
+    }
+
+    /**
+     * Permite obtener todos los productos en formato DTO
+     *
+     * @return Retorna una lista dto de todos los productos
+     */
+    @Override
+    public List<ProductoDTO> findAllProductoDTO() {
+        return productoRepositorio.findAllProductoDTO();
+    }
+
+    /**
+     * Permite obtener todos los productos segun identificador de categoria en formato DTO
+     *
+     * @param categoriaId Identificador de categoria
+     * @return Retorna una lista dto de productos
+     */
+    @Override
+    public List<ProductoDTO> findAllProductoDTOByCategoriaId(String categoriaId) {
+        return productoRepositorio.findAllProductoDTOByCategoriaId(categoriaId);
+    }
+
+    /**
+     * Permite obtener todos los productos segun identificador de producto en formato DTO
+     *
+     * @param productoId Identificador de producto
+     * @return Retorna dto de producto
+     */
+    @Override
+    public ProductoDTO findProductoDTO(String productoId) {
+        return productoRepositorio.findProductoDTO(productoId);
     }
 }

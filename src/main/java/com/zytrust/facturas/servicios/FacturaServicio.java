@@ -87,4 +87,20 @@ public interface FacturaServicio {
      * @return Retorna una lista dto de todas las facturas
      */
     List<FacturaDTO> findAllFacturaDTO();
+
+    /**
+     * Permite obtener una lista de todas las facturas segun identificador de
+     * cliente en formato DTO
+     * @param clienteId Identificador de cliente
+     * @return Retorna una lista dto de todas las facturas
+     */
+    List<FacturaDTO> findAllFacturaDTOByClienteId(String clienteId);
+
+    /**
+     * Permite obtener una lista de todas las facturas segun identificador de
+     * factura en formato DTO
+     * @param facturaId Identificador de factura
+     * @return Retorna un dto de factura
+     */
+    FacturaDTO findFacturaDTO(String facturaId);
 }

@@ -55,4 +55,12 @@ public interface CategoriaProductoServicio {
      * @return Retorna una lista dto de categorias de producto
      */
     List<CategoriaProductoDTO> findAllCategoriaProductoDTO();
+
+    /**
+     * Permite obtener una categoria de producto segun el identificador en formato DTO
+     *
+     * @param categoriaId Identificador de categoria de producto
+     * @return Retorna un objeto de tipo CategoriaProductoDTO
+     */
+    CategoriaProductoDTO findCategoriaProductoDTO(String categoriaId);
 }
