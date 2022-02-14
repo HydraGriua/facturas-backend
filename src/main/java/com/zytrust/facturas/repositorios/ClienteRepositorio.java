@@ -29,33 +29,33 @@ import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 @Repository
 public interface ClienteRepositorio extends JpaRepository<Cliente, String> {
 
-        /**
-         * Permite obtener todos los clientes en formato DTO
-         * 
-         * @return Retorna una lista dto de todos los clientes
-         */
-        @Query(value = "SELECT cl.clienteId AS codCliente, cl.numDocumento AS nroDocumento,"
-                        + " cl.tipoDocumento AS tipoDocumento, cl.primerNombre AS nombre,"
-                        + " cl.primerApellido AS apellido, cl.fechaNacimiento AS fechaNacimiento,"
-                        + " cl.genero AS genero, cl.email AS email, cl.celular AS celular,"
-                        + " cl.direccion AS direccion, cl.nombreEmpresa AS nombreEmpresa, "
-                        + "(SELECT COUNT(f) from Factura f WHERE f.cliente.clienteId = cl.clienteId)"
-                        + " AS numFacturas FROM Cliente cl GROUP BY cl")
-        List<ClienteDTO> findAllClienteDTO();
+    /**
+    * Permite obtener todos los clientes en formato DTO
+    *
+    * @return Retorna una lista dto de todos los clientes
+    */
+    @Query(value = "SELECT cl.clienteId AS codCliente, cl.numDocumento AS nroDocumento,"
+            + " cl.tipoDocumento AS tipoDocumento, cl.primerNombre AS nombre,"
+            + " cl.primerApellido AS apellido, cl.fechaNacimiento AS fechaNacimiento,"
+            + " cl.genero AS genero, cl.email AS email, cl.celular AS celular,"
+            + " cl.direccion AS direccion, cl.nombreEmpresa AS nombreEmpresa, "
+            + "(SELECT COUNT(f) from Factura f WHERE f.cliente.clienteId = cl.clienteId)"
+            + " AS numFacturas FROM Cliente cl GROUP BY cl")
+    List<ClienteDTO> findAllClienteDTO();
 
-        /**
-         * Permite obtener un cliente dto segun el identificador de cliente
-         * 
-         * @param clienteId Identificador de cliente
-         * @return Retorna un cliente en formato DTO
-         */
-        @Query(value = "SELECT cl.clienteId AS codCliente, cl.numDocumento AS nroDocumento, "
-                        + "cl.tipoDocumento AS tipoDocumento, cl.primerNombre AS nombre, "
-                        + "cl.primerApellido AS apellido, cl.fechaNacimiento AS fechaNacimiento, "
-                        + "cl.genero AS genero, cl.email AS email, cl.celular AS celular, "
-                        + "cl.direccion AS direccion, cl.nombreEmpresa AS nombreEmpresa, "
-                        + "(SELECT COUNT(f) from Factura f WHERE f.cliente.clienteId = cl.clienteId) "
-                        + "AS numFacturas FROM Cliente cl "
-                        + "WHERE cl.clienteId = :clienteId GROUP BY cl")
-        ClienteDTO findClienteDTO(@Param("clienteId") String clienteId);
+    /**
+    * Permite obtener un cliente dto segun el identificador de cliente
+    *
+    * @param clienteId Identificador de cliente
+    * @return Retorna un cliente en formato DTO
+    */
+    @Query(value = "SELECT cl.clienteId AS codCliente, cl.numDocumento AS nroDocumento, "
+            + "cl.tipoDocumento AS tipoDocumento, cl.primerNombre AS nombre, "
+            + "cl.primerApellido AS apellido, cl.fechaNacimiento AS fechaNacimiento, "
+            + "cl.genero AS genero, cl.email AS email, cl.celular AS celular, "
+            + "cl.direccion AS direccion, cl.nombreEmpresa AS nombreEmpresa, "
+            + "(SELECT COUNT(f) from Factura f WHERE f.cliente.clienteId = cl.clienteId) "
+            + "AS numFacturas FROM Cliente cl "
+            + "WHERE cl.clienteId = :clienteId GROUP BY cl")
+    ClienteDTO findClienteDTO(@Param("clienteId") String clienteId);
 }

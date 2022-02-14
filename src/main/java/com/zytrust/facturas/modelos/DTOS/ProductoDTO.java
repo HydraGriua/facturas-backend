@@ -10,25 +10,30 @@
 
 package com.zytrust.facturas.modelos.DTOS;
 
+import java.math.BigDecimal;
+
 /**
- * Esta interfaz representa un dto de categoria de producto y debe ser usada para obtener
+ * Esta interfaz representa un dto de producto y debe ser usada para obtener
  * datos a traves de los repositorios.
  *
  * @author Flavio Saavedra Montenegro
- * @version 1, 11/02/2022
+ * @version 1, 14/02/2022
  */
 
-public interface CategoriaProductoDTO {
+public interface ProductoDTO {
 
-    /** Identificador de categoria de productos */
-    String getCodCategoria();
+    /** Identificador de producto */
+    String getCodProducto();
 
-    /** Nombre de categoria de productos */
+    /** Nombre de producto */
     String getNombre();
 
-    /** Descripcion de categoria de productos */
+    /** Descripcion de producto */
     String getDescripcion();
 
-    /** Cantidad de productos que pertenecen a la categoria */
-    Integer getNumProductos();
+    /** Precio de venta unitario de producto */
+    BigDecimal getPrecioVenta();
+
+    /** Identificador de Categoria de producto */
+    String getCodCategoria();
 }

@@ -22,15 +22,37 @@ import java.time.LocalDateTime;
  */
 
 public interface FacturaDTO {
+
+    /** Identificador de factura */
     String getCodFactura();
+
+    /** Direccion de emision de factura */
     String getDireccion();
+
+    /** Fecha y Hora de emision de factura */
     LocalDateTime getFechaHoraEmision();
+
+    /** Fecha y Hora de pago de factura */
     LocalDateTime getFechaHoraPago();
+
+    /** Tipo de pago de factura */
     String getTipoPago();
+
+    /** Estado de factura */
     String getEstado();
+
+    /** subtotal a pagar de factura */
     BigDecimal getSubtotal();
+
+    /** Impuesto a pagar de factura */
     BigDecimal getImpuesto();
+
+    /** Total a pagar de factura */
     BigDecimal getTotal();
+
+    /** Identificador de cliente al que pertenece factura */
     String getCodCliente();
+
+    /** Cantidad del productos en la factura */
     Integer getNumProductos();
 }

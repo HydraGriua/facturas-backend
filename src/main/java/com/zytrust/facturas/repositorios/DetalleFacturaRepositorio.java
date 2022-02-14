@@ -12,6 +12,8 @@ package com.zytrust.facturas.repositorios;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.zytrust.facturas.modelos.DTOS.DetalleFacturaDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -48,4 +50,18 @@ public interface DetalleFacturaRepositorio extends JpaRepository<DetalleFactura,
     @Query("SELECT df FROM DetalleFactura df WHERE df.factura.facturaId = :facturaId AND df.producto.productoId = :productoId")
     Optional<DetalleFactura> findDetalleFactura(@Param("facturaId") String facturaId,
             @Param("productoId") String productoId);
+
+
+    /**
+     * Permite obtener todos los detalles de factura segun identificador
+     * de factura en formato DTO
+     *
+     * @param facturaId Identificador de factura
+     * @return Retorna dto de producto
+     */
+    @Query(value = "SELECT df.productoId AS codProducto, df.facturaId AS codFactura, "
+            +"df.cantidad AS cantidadProducto, df.importe AS importeDetalle "
+            +"FROM DetalleFactura df WHERE df.facturaId = :facturaId GROUP BY df")
+    List<DetalleFacturaDTO> findAllDetalleFacturaDTOByFacturaId(
+            @Param("facturaId") String facturaId);
 }

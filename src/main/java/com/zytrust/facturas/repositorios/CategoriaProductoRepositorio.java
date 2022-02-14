@@ -13,6 +13,7 @@ package com.zytrust.facturas.repositorios;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import com.zytrust.facturas.modelos.CategoriaProducto;
@@ -38,4 +39,15 @@ public interface CategoriaProductoRepositorio extends JpaRepository<CategoriaPro
             +"WHERE p.categoria.categoriaId = cp.categoriaId) AS numProductos "
             +"FROM CategoriaProducto cp GROUP BY cp")
     List<CategoriaProductoDTO> findAllCategoriaProductoDTO();
+
+    /**
+     * Permite categoria de producto segun identificador de categoria en formato dto
+     * @param categoriaId Identificador de categoria
+     * @return Retorna una lista dto de categorias de producto
+     */
+    @Query(value = "SELECT cp.categoriaId AS codCategoria, cp.nombre AS nombre, "
+            +"cp.descripcion AS descripcion,(SELECT COUNT(p) from Producto p "
+            +"WHERE p.categoria.categoriaId = cp.categoriaId) AS numProductos "
+            +"FROM CategoriaProducto cp WHERE cp.categoriaId = :categoriaId GROUP BY cp")
+    CategoriaProductoDTO findCategoriaProductoDTO(@Param("categoriaId") String categoriaId);
 }
