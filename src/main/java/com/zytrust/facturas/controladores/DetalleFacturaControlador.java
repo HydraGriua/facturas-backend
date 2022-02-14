@@ -11,6 +11,8 @@
 package com.zytrust.facturas.controladores;
 
 import java.util.List;
+
+import com.zytrust.facturas.modelos.DTOS.DetalleFacturaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -61,8 +63,25 @@ public class DetalleFacturaControlador {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/facturas/{facturaId}/detalles")
     public ApiResponse<List<DetalleFacturaDto>> getAllDetalleFacturaByFacturaId(
-            @PathVariable String facturaId) throws Exception {
+            @PathVariable String facturaId) {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 detalleFacturaServicio.getAllByFacturaId(facturaId));
     }
+
+    /**
+     * Permite obtener una lista dto de todos los detalles de facturas segun el
+     * identificador de factura
+     *
+     * @param facturaId Identificador de factura
+     * @return Retorna una lista dto de todos los detalles de una factura
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/facturas/{facturaId}/detalles/DTO")
+    public ApiResponse<List<DetalleFacturaDTO>> getAllDetalleFacturaDTOByFacturaId(
+            @PathVariable String facturaId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                detalleFacturaServicio.findAllDetalleFacturaDTOByFacturaId(facturaId));
+    }
+
+
 }

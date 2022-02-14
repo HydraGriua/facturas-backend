@@ -63,6 +63,33 @@ public class FacturaControlador {
     }
 
     /**
+     * Permite obtener todas las facturas
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todas las facturas
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/facturas/DTO/{facturaId}")
+    public ApiResponse<FacturaDTO> getFacturaDTO(@PathVariable String facturaId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                facturaServicio.findFacturaDTO(facturaId));
+    }
+
+    /**
+     * Permite obtener una lista de todas las facturas segun identificador de
+     * cliente en formato DTO
+     * @param clienteId Identificador de cliente
+     * @return Retorna una lista dto de todas las facturas
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/clientes/{clienteId}/facturas/DTO")
+    public ApiResponse<List<FacturaDTO>> getAllFacturaDTOByClienteId(@PathVariable String clienteId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                facturaServicio.findAllFacturaDTOByClienteId(clienteId));
+    }
+
+
+
+    /**
      * Permite obtener todas las facturas segun identificador de cliente
      *
      * @return Retorna un ApiResponse conteniendo la lista dto de todas las facturas de un cliente

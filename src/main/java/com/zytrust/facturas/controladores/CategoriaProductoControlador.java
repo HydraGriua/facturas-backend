@@ -65,6 +65,19 @@ public class CategoriaProductoControlador {
     }
 
     /**
+     * Permite obtener una categoria de producto segun el identificador en formato DTO
+     *
+     * @param categoriaId Identificador de categoria de producto
+     * @return Retorna un objeto de tipo CategoriaProductoDTO
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/DTO/{categoriaId}")
+    public ApiResponse<CategoriaProductoDTO> getCategoriaProductoDTO(@PathVariable String categoriaId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                categoriaProductoServicio.findCategoriaProductoDTO(categoriaId));
+    }
+
+    /**
      * Permite obtener todas las categorias de productos
      *
      * @return Retorna un ApiResponse conteniendo la lista dto de todas las

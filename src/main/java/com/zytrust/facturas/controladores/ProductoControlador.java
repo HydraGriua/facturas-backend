@@ -12,6 +12,8 @@ package com.zytrust.facturas.controladores;
 
 import java.util.List;
 import javax.validation.Valid;
+
+import com.zytrust.facturas.modelos.DTOS.ProductoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +52,36 @@ public class ProductoControlador {
     }
 
     /**
+     * Permite obtener todos los productos en formato DTO
+     * @return Retorna una lista dto de todos los productos
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/productos/DTO")
+    public ApiResponse<List<ProductoDTO>> getAllProductoDTO() {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                productoServicio.findAllProductoDTO());
+    }
+
+    /**
+     * Permite obtener todos los productos segun identificador de categoria en formato DTO
+     * @param categoriaId Identificador de categoria
+     * @return Retorna una lista dto de productos
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/categoria-productos/{categoriaId}/productos/DTO")
+    public ApiResponse<List<ProductoDTO>> getAllProductoDTOByCategoriaId(@PathVariable String categoriaId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                productoServicio.findAllProductoDTOByCategoriaId(categoriaId));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/productos/DTO/{productoId}")
+    public ApiResponse<ProductoDTO> getProductoDTO(@PathVariable String productoId) {
+        return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
+                productoServicio.findProductoDTO(productoId));
+    }
+
+    /**
      * Permite obtener todos los productos segun el identificador de categoria de productos
      *
      * @return Retorna un ApiResponse conteniendo la lista dto de todos los
@@ -67,7 +99,6 @@ public class ProductoControlador {
      *
      * @return Retorna un ApiResponse conteniendo la lista dto de todos los
      *         productos de una categoria
-     * @throws Exception
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/productos/{productoId}")
@@ -81,8 +112,6 @@ public class ProductoControlador {
      *
      * @param producto Dto de creacion para producto
      * @return Retorna un ApiResponse conteniendo un objeto de tipo ProductoDto
-     * @throws Exception Emite una excepcion basica para informar de error en la
-     *                   obtencion de la categoria de producto
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/productos")
