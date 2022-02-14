@@ -10,13 +10,12 @@
 
 package com.zytrust.facturas.repositorios;
 
-import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import com.zytrust.facturas.modelos.CategoriaProducto;
-
-import java.util.List;
 
 /**
  * Esta interfaz representa a un respositorio para categoria de producto y debe
@@ -30,6 +29,10 @@ import java.util.List;
 @Repository
 public interface CategoriaProductoRepositorio extends JpaRepository<CategoriaProducto, String> {
 
+    /**
+     * Permite obtener todas las categorias de producto en formato DTO
+     * @return Retorna una lista dto de categorias de producto
+     */
     @Query(value = "SELECT cp.categoriaId AS codCategoria, cp.nombre AS nombre, "
             +"cp.descripcion AS descripcion,(SELECT COUNT(p) from Producto p "
             +"WHERE p.categoria.categoriaId = cp.categoriaId) AS numProductos "

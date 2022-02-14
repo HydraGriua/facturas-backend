@@ -11,11 +11,10 @@
 package com.zytrust.facturas.repositorios;
 
 import java.util.List;
-
-import com.zytrust.facturas.modelos.DTOS.FacturaDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import com.zytrust.facturas.modelos.DTOS.FacturaDTO;
 import com.zytrust.facturas.modelos.Factura;
 
 /**
@@ -37,6 +36,10 @@ public interface FacturaRepositorio extends JpaRepository<Factura, String> {
      */
     List<Factura> findAllByClienteClienteId(String clienteId);
 
+    /**
+     * Permite obtener una lista de todas las facturas en formato DTO
+     * @return Retorna una lista dto de todas las facturas
+     */
     @Query(value = "SELECT f.facturaId AS codFactura, f.direccion AS direccion,"
             +" f.fechaHoraEmision AS fechaHoraEmision, f.fechaHoraPago"
             +" AS fechaHoraPago, COALESCE(f.tipoPago,'---') AS tipoPago, CASE WHEN "

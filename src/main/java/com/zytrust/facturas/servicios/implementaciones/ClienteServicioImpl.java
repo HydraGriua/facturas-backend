@@ -12,14 +12,13 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
-
-import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.zytrust.facturas.dtos.cliente.ClienteDto;
+import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
 import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.Cliente;
@@ -111,11 +110,22 @@ public class ClienteServicioImpl implements ClienteServicio {
         return converter.clienteToDto(clienteEntidad);
     }
 
+    /**
+     * Permite obtener todos los clientes en formato DTO
+     * 
+     * @return Retorna una lista dto de todos los clientes
+     */
     @Override
     public List<ClienteDTO> findAllClienteDTO() {
         return clienteRepositorio.findAllClienteDTO();
     }
 
+    /**
+     * Permite obtener un cliente dto segun el identificador de cliente
+     * 
+     * @param clienteId Identificador de cliente
+     * @return Retorna un cliente en formato DTO
+     */
     @Override
     public ClienteDTO findClienteDTO(String clienteId) {
         return clienteRepositorio.findClienteDTO(clienteId);

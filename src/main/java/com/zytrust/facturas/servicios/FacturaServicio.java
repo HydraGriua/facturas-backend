@@ -82,5 +82,9 @@ public interface FacturaServicio {
      */
     FacturaDto pagoFactura(String tipoPago, String facturaId);
 
+    /**
+     * Permite obtener una lista de todas las facturas en formato DTO
+     * @return Retorna una lista dto de todas las facturas
+     */
     List<FacturaDTO> findAllFacturaDTO();
 }

@@ -12,11 +12,10 @@ package com.zytrust.facturas.controladores;
 
 import java.util.List;
 import javax.validation.Valid;
-
-import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import com.zytrust.facturas.dtos.ApiResponse;
 import com.zytrust.facturas.dtos.categoria.CategoriaProductoDto;
 import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
@@ -52,6 +51,12 @@ public class CategoriaProductoControlador {
                 categoriaProductoServicio.getAll());
     }
 
+    /**
+     * Permite obtener todas las categorias de productos
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todas las
+     *         categorias de productos
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/DTO")
     public ApiResponse<List<CategoriaProductoDTO>> getAllCategoriaProductoDTO() {

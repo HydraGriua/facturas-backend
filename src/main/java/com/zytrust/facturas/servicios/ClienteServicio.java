@@ -48,7 +48,18 @@ public interface ClienteServicio {
      */
     ClienteDto createCliente(CreateClienteDto cliente);
 
+    /**
+     * Permite obtener todos los clientes en formato DTO
+     * 
+     * @return Retorna una lista dto de todos los clientes
+     */
     List<ClienteDTO> findAllClienteDTO();
 
+    /**
+     * Permite obtener un cliente dto segun el identificador de cliente
+     * 
+     * @param clienteId Identificador de cliente
+     * @return Retorna un cliente en formato DTO
+     */
     ClienteDTO findClienteDTO(String clienteId);
 }

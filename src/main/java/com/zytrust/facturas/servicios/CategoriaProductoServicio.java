@@ -50,5 +50,9 @@ public interface CategoriaProductoServicio {
      */
     CategoriaProductoDto createCategoriaProducto(CreateCategoriaProductoDto categoria);
 
+    /**
+     * Permite obtener todas las categorias de producto en formato DTO
+     * @return Retorna una lista dto de categorias de producto
+     */
     List<CategoriaProductoDTO> findAllCategoriaProductoDTO();
 }

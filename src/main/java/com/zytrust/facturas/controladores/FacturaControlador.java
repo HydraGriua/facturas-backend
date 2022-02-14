@@ -12,12 +12,11 @@ package com.zytrust.facturas.controladores;
 
 import java.util.List;
 import javax.validation.Valid;
-
-import com.zytrust.facturas.modelos.DTOS.FacturaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.zytrust.facturas.dtos.ApiResponse;
+import com.zytrust.facturas.modelos.DTOS.FacturaDTO;
 import com.zytrust.facturas.dtos.Factura.CreateFacturaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaCompletaDto;
 import com.zytrust.facturas.dtos.Factura.FacturaDto;
@@ -51,6 +50,11 @@ public class FacturaControlador {
                 facturaServicio.getAll());
     }
 
+    /**
+     * Permite obtener todas las facturas
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todas las facturas
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/facturas/DTO")
     public ApiResponse<List<FacturaDTO>> getAllFacturaDTO() {

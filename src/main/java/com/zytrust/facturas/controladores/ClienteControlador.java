@@ -12,11 +12,10 @@ package com.zytrust.facturas.controladores;
 
 import java.util.List;
 import javax.validation.Valid;
-
-import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import com.zytrust.facturas.modelos.DTOS.ClienteDTO;
 import com.zytrust.facturas.dtos.ApiResponse;
 import com.zytrust.facturas.dtos.cliente.ClienteDto;
 import com.zytrust.facturas.dtos.cliente.CreateClienteDto;
@@ -51,12 +50,23 @@ public class ClienteControlador {
                 clienteServicio.getAll());
     }
 
+    /**
+     * Permite obtener todos los clientes
+     *
+     * @return Retorna un ApiResponse conteniendo la lista dto de todos los clientes
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/DTO")
     public ApiResponse<List<ClienteDTO>> getAllClientesDTO() {
         return new ApiResponse<>("Success", String.valueOf(HttpStatus.OK), "OK",
                 clienteServicio.findAllClienteDTO());
     }
+
+    /**
+     * Permite obtener un cliente segun identificador de cliente
+     *
+     * @return Retorna un ApiResponse conteniendo un dto de cliente
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/DTO/{clienteId}")
     public ApiResponse<ClienteDTO> getClienteDTO(@PathVariable("clienteId") String clienteId) {

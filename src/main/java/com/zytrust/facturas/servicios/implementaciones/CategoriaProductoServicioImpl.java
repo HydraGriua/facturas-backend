@@ -12,13 +12,12 @@ package com.zytrust.facturas.servicios.implementaciones;
 
 import java.util.List;
 import java.util.Optional;
-
-import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zytrust.facturas.dtos.categoria.CategoriaProductoDto;
+import com.zytrust.facturas.modelos.DTOS.CategoriaProductoDTO;
 import com.zytrust.facturas.dtos.categoria.CreateCategoriaProductoDto;
 import com.zytrust.facturas.excepciones.FacturasException;
 import com.zytrust.facturas.modelos.CategoriaProducto;
@@ -98,6 +97,10 @@ public class CategoriaProductoServicioImpl implements CategoriaProductoServicio 
         return converter.categoriaProductoToDto(categoriaProducto);
     }
 
+    /**
+     * Permite obtener todas las categorias de producto en formato DTO
+     * @return Retorna una lista dto de categorias de producto
+     */
     @Override
     public List<CategoriaProductoDTO> findAllCategoriaProductoDTO() {
         return categoriaProductoRepositorio.findAllCategoriaProductoDTO();

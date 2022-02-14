@@ -244,6 +244,10 @@ public class FacturaServicioImpl implements FacturaServicio {
         return converter.facturaToDto(factura);
     }
 
+    /**
+     * Permite obtener una lista de todas las facturas en formato DTO
+     * @return Retorna una lista dto de todas las facturas
+     */
     @Override
     @Transactional(readOnly = true)
     public List<FacturaDTO> findAllFacturaDTO() {
